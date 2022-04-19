@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,8 +8,173 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id           Int       @id @default(autoincrement())
+  userId       String    @unique @db.VarChar(100)
+  nickname     String    @db.VarChar(100)
+  password     String    @db.VarChar(100)
+  cityId       Int
+  districtId   Int
+  policyAgreed Boolean   @default(true)
+  created_at   DateTime? @default(now())
+  updated_at   DateTime? @default(now())
+
+  productIntrested  ProductInterested[]
+  districtInfoLiked DistrictInfoLiked[]
+  Comment           Comment[]
+  CommentLiked      CommentLiked[]
+  Chat              Chat[]
+  Product           Product[]
+  @@map("users")
 }
 
+model Product {
+  id           Int       @id @default(autoincrement())
+  title        String    @unique @db.VarChar(100)
+  categoryId   Int
+  cityId       Int
+  districtId   Int
+  price        Decimal?
+  description  String    @db.VarChar(100)
+  viewCount    Int?
+  purchaseDate DateTime?
+  userId       Int
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @default(now())
+
+  user             User                @relation(fields: [userId], references: [id])
+  category         Category            @relation(fields: [categoryId], references: [id])
+  city             City                @relation(fields: [cityId], references: [id])
+  district         District            @relation(fields: [districtId], references: [id])
+  ProductImage     ProductImage[]
+  ProductIntrested ProductInterested[]
+  ChatRoom         ChatRoom[]
+  @@map("products")
+}
+
+model Category {
+  id           Int       @id @default(autoincrement())
+  categoryName String    @unique @db.VarChar(100)
+  createdAt    DateTime? @default(now())
+  Product      Product[]
+
+  @@map("categories")
+}
+
+model ProductImage {
+  id        Int       @id @default(autoincrement())
+  productId Int
+  imageUrl  String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  product   Product   @relation(fields: [productId], references: [id])
+
+  @@map("products_images")
+}
+
+model City {
+  id           Int       @id @default(autoincrement())
+  categoryName String    @unique
+  productId    Int
+  createdAt    DateTime? @default(now())
+
+  Product Product[]
+  @@map("cities")
+}
+
+model District {
+  id           Int       @id @default(autoincrement())
+  cityId       Int
+  districtName String    @unique
+  createdAt    DateTime? @default(now())
+
+  Product Product[]
+  @@map("districts")
+}
+
+model ProductInterested {
+  id        Int       @id @default(autoincrement())
+  productId Int
+  userId    Int       @unique
+  createdAt DateTime? @default(now())
+  product   Product   @relation(fields: [productId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@map("products_interested")
+}
+
+model DistrictInfo {
+  id         Int       @id @default(autoincrement())
+  cityId     Int
+  districtId Int
+  userId     Int
+  title      String
+  content    String
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @default(now())
+
+  districtInfoLiked DistrictInfoLiked[]
+  Comment           Comment[]
+  @@map("districts_infos")
+}
+
+model DistrictInfoLiked {
+  id        Int          @id @default(autoincrement())
+  infoId    Int
+  userId    Int
+  createdAt DateTime?    @default(now())
+  updatedAt DateTime?    @default(now())
+  info      DistrictInfo @relation(fields: [infoId], references: [id])
+  user      User         @relation(fields: [userId], references: [id])
+
+  @@map("districts_infos_liked")
+}
+
+model Comment {
+  id        Int          @id @default(autoincrement())
+  infoId    Int
+  userId    Int
+  commnet   String
+  createdAt DateTime?    @default(now())
+  updatedAt DateTime?    @default(now())
+  info      DistrictInfo @relation(fields: [infoId], references: [id])
+  user      User         @relation(fields: [userId], references: [id])
+
+  CommentLiked CommentLiked[]
+  @@map("commnets")
+}
+
+model CommentLiked {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  commnetId Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  comment   Comment   @relation(fields: [commnetId], references: [id])
+
+  @@map("commnets_liked")
+}
+
+model ChatRoom {
+  id        Int       @id @default(autoincrement())
+  productId Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  product   Product   @relation(fields: [productId], references: [id])
+
+  Chat Chat[]
+  @@map("chat_rooms")
+}
+
+model Chat {
+  id        Int       @id @default(autoincrement())
+  roomId    Int
+  userId    Int
+  text      String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  room      ChatRoom  @relation(fields: [roomId], references: [id])
+
+  @@map("chats")
+}
