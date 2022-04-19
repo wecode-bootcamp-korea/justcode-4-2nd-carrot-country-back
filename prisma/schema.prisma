@@ -31,7 +31,7 @@ model User {
 
 model Product {
   id           Int       @id @default(autoincrement())
-  title        String    @unique @db.VarChar(100)
+  title        String    @db.VarChar(100)
   categoryId   Int
   cityId       Int
   districtId   Int
@@ -74,14 +74,14 @@ model ProductImage {
 }
 
 model City {
-  id           Int       @id @default(autoincrement())
-  categoryName String    @unique
-  productId    Int
-  createdAt    DateTime? @default(now())
+  id        Int       @id @default(autoincrement())
+  cityName  String    @unique
+  createdAt DateTime? @default(now())
 
   Product      Product[]
   User         User[]
   DistrictInfo DistrictInfo[]
+  District     District[]
   @@map("cities")
 }
 
@@ -91,6 +91,7 @@ model District {
   districtName String    @unique
   createdAt    DateTime? @default(now())
 
+  city         City           @relation(fields: [cityId], references: [id])
   Product      Product[]
   User         User[]
   DistrictInfo DistrictInfo[]
@@ -100,7 +101,7 @@ model District {
 model ProductInterested {
   id        Int       @id @default(autoincrement())
   productId Int
-  userId    Int       @unique
+  userId    Int
   createdAt DateTime? @default(now())
   product   Product   @relation(fields: [productId], references: [id])
   user      User      @relation(fields: [userId], references: [id])
@@ -139,16 +140,16 @@ model DistrictInfoLiked {
 }
 
 model Comment {
-  id        Int          @id @default(autoincrement())
-  infoId    Int
-  userId    Int
-  commnet   String
-  createdAt DateTime?    @default(now())
-  updatedAt DateTime?    @default(now())
-  info      DistrictInfo @relation(fields: [infoId], references: [id])
-  user      User         @relation(fields: [userId], references: [id])
-
+  id           Int            @id @default(autoincrement())
+  infoId       Int
+  userId       Int
+  comment      String
+  createdAt    DateTime?      @default(now())
+  updatedAt    DateTime?      @default(now())
+  info         DistrictInfo   @relation(fields: [infoId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
   CommentLiked CommentLiked[]
+
   @@map("commnets")
 }
 
@@ -157,7 +158,6 @@ model CommentLiked {
   userId    Int
   commnetId Int
   createdAt DateTime? @default(now())
-  updatedAt DateTime? @default(now())
   user      User      @relation(fields: [userId], references: [id])
   comment   Comment   @relation(fields: [commnetId], references: [id])
 
@@ -170,8 +170,8 @@ model ChatRoom {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
   product   Product   @relation(fields: [productId], references: [id])
+  Chat      Chat[]
 
-  Chat Chat[]
   @@map("chat_rooms")
 }
 
