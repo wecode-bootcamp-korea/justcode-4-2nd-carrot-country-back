@@ -8,22 +8,24 @@ datasource db {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  userId       String    @unique @db.VarChar(100)
-  nickname     String    @db.VarChar(100)
-  password     String    @db.VarChar(100)
-  cityId       Int
-  districtId   Int
-  policyAgreed Boolean   @default(true)
-  created_at   DateTime? @default(now())
-  updated_at   DateTime? @default(now())
+  id         Int       @id @default(autoincrement())
+  userId     String    @unique @db.VarChar(100)
+  nickname   String    @db.VarChar(100)
+  password   String    @db.VarChar(100)
+  cityId     Int
+  districtId Int
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @default(now())
 
+  city              City                @relation(fields: [cityId], references: [id])
+  district          District            @relation(fields: [districtId], references: [id])
   productIntrested  ProductInterested[]
   districtInfoLiked DistrictInfoLiked[]
   Comment           Comment[]
   CommentLiked      CommentLiked[]
   Chat              Chat[]
   Product           Product[]
+  DistrictInfo      DistrictInfo[]
   @@map("users")
 }
 
@@ -77,7 +79,9 @@ model City {
   productId    Int
   createdAt    DateTime? @default(now())
 
-  Product Product[]
+  Product      Product[]
+  User         User[]
+  DistrictInfo DistrictInfo[]
   @@map("cities")
 }
 
@@ -87,7 +91,9 @@ model District {
   districtName String    @unique
   createdAt    DateTime? @default(now())
 
-  Product Product[]
+  Product      Product[]
+  User         User[]
+  DistrictInfo DistrictInfo[]
   @@map("districts")
 }
 
@@ -111,6 +117,9 @@ model DistrictInfo {
   content    String
   createdAt  DateTime? @default(now())
   updatedAt  DateTime? @default(now())
+  city       City      @relation(fields: [cityId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+  district   District  @relation(fields: [districtId], references: [id])
 
   districtInfoLiked DistrictInfoLiked[]
   Comment           Comment[]
