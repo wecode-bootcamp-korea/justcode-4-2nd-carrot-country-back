@@ -20,12 +20,12 @@ model User {
   city              City                @relation(fields: [cityId], references: [id])
   district          District            @relation(fields: [districtId], references: [id])
   productIntrested  ProductInterested[]
+  DistrictInfo      DistrictInfo[]
   districtInfoLiked DistrictInfoLiked[]
   Comment           Comment[]
   CommentLiked      CommentLiked[]
   Chat              Chat[]
   Product           Product[]
-  DistrictInfo      DistrictInfo[]
   @@map("users")
 }
 
@@ -35,18 +35,18 @@ model Product {
   categoryId   Int
   cityId       Int
   districtId   Int
+  userId       Int
   price        Decimal?
   description  String    @db.VarChar(100)
   viewCount    Int?
   purchaseDate DateTime?
-  userId       Int
   createdAt    DateTime? @default(now())
   updatedAt    DateTime? @default(now())
 
-  user             User                @relation(fields: [userId], references: [id])
   category         Category            @relation(fields: [categoryId], references: [id])
   city             City                @relation(fields: [cityId], references: [id])
   district         District            @relation(fields: [districtId], references: [id])
+  user             User                @relation(fields: [userId], references: [id])
   ProductImage     ProductImage[]
   ProductIntrested ProductInterested[]
   ChatRoom         ChatRoom[]
@@ -88,7 +88,7 @@ model City {
 model District {
   id           Int       @id @default(autoincrement())
   cityId       Int
-  districtName String    @unique
+  districtName String
   createdAt    DateTime? @default(now())
 
   city         City           @relation(fields: [cityId], references: [id])
@@ -119,11 +119,12 @@ model DistrictInfo {
   createdAt  DateTime? @default(now())
   updatedAt  DateTime? @default(now())
   city       City      @relation(fields: [cityId], references: [id])
-  user       User      @relation(fields: [userId], references: [id])
   district   District  @relation(fields: [districtId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
 
   districtInfoLiked DistrictInfoLiked[]
   Comment           Comment[]
+
   @@map("districts_infos")
 }
 
