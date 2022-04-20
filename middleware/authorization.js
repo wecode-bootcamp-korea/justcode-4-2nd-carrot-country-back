@@ -30,5 +30,4 @@ const getUserDistrictInfo = async (req, res, next) =>{
       }
 };
 
-
 module.exports = { getUserIdByVerifyToken, getUserDistrictInfo };
