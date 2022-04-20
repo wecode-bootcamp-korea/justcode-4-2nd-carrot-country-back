@@ -16,12 +16,10 @@ const validLogin = async (req, res, next) => {
 };
 
 // const validCreateProduct = async (req, res, next) => {
-//     const {  title, categoryId, price, description } = req.body;
-
+//     const { title, categoryId, price, description } = req.body;
 //     if (!title || !categoryId || !price || !description) {
 //       return res.status(400).json({ message: "KEY_ERROR" });
 //     }
-
 //     next();
 //   };
 

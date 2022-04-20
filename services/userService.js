@@ -37,4 +37,15 @@ const login = async (userId, password) => {
   return token;
 };
 
-module.exports = { signup, login };
+const duplicateCheck = async (userId) => {
+  const userCheck = await userDao.checkDuplicateEmail(userId);
+  if (userCheck.length !== 0) {
+    const error = new Error("EXSITING_USER");
+    error.statusCode = 400;
+    throw error;
+  }
+  return userCheck;
+};
+
+
+module.exports = { signup, login, duplicateCheck };
