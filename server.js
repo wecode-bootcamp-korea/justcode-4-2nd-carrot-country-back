@@ -8,8 +8,8 @@ const prisma = new PrismaClient();
 const app = express();
 
 // dotenv.config();
-// app.use(cors());
-// app.use(express.json());
+app.use(cors());
+app.use(express.json());
 app.use(routes);
 
 app.get("/ping", (req, res) => {
