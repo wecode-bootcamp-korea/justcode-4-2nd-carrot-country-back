@@ -6,7 +6,7 @@ const getArea = async () => {
     select: {
       id: true,
       cityName: true,
-      District: {
+      district: {
         select: {
           id: true,
           districtName: true,
