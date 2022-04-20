@@ -19,15 +19,16 @@ model User {
 
   city              City                @relation(fields: [cityId], references: [id])
   district          District            @relation(fields: [districtId], references: [id])
-  productIntrested  ProductInterested[]
   DistrictInfo      DistrictInfo[]
-  districtInfoLiked DistrictInfoLiked[]
   Comment           Comment[]
   CommentLiked      CommentLiked[]
   Chat              Chat[]
   Product           Product[]
+  ChatRoom          ChatRoom[]
+  DistrictInfoLiked DistrictInfoLiked[]
+  ProductInterested ProductInterested[]
+
   @@map("users")
-  ChatRoom ChatRoom[]
 }
 
 model Product {
@@ -107,6 +108,7 @@ model ProductInterested {
   product   Product   @relation(fields: [productId], references: [id])
   user      User      @relation(fields: [userId], references: [id])
 
+
   @@map("products_interested")
 }
 
@@ -123,8 +125,8 @@ model DistrictInfo {
   district   District  @relation(fields: [districtId], references: [id])
   user       User      @relation(fields: [userId], references: [id])
 
-  districtInfoLiked DistrictInfoLiked[]
   Comment           Comment[]
+  DistrictInfoLiked DistrictInfoLiked[]
 
   @@map("districts_infos")
 }
