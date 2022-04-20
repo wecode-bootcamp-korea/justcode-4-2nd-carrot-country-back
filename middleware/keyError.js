@@ -1,5 +1,4 @@
 const validSignup = async (req, res, next) => {
-  console.log("바디는 오냐", req.body);
   const { userId, nickname, password, cityId, districtId } = req.body;
   console.log(nickname);
   if (!userId || !nickname || !password || !cityId || !districtId) {

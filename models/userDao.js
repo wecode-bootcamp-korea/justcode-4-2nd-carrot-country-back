@@ -22,4 +22,10 @@ const checkDuplicateEmail = async (userId) => {
     `;
   };
 
-  module.exports = { checkDuplicateEmail, createUser, checkUser};
+  const getUserDistrictInfo = async (userId) => {
+    return await prisma.$queryRaw`
+    SELECT cityId, districtId from users where userId = ${userId}`
+  }
+
+
+  module.exports = { checkDuplicateEmail, createUser, checkUser, getUserDistrictInfo};

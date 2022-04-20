@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const userDao = require("../models/userDao");
 
 const getUserIdByVerifyToken = async (req, res, next) => {
   const token = req.headers.token;
@@ -17,5 +18,17 @@ const getUserIdByVerifyToken = async (req, res, next) => {
   }
 };
 
+const getUserDistrictInfo = async (req, res, next) =>{
+      const userId = req.userId;
+      if (req.userId){
+      const userInfo = await userDao.getUserDistrictInfo(userId)
+      req.cityId = userInfo[0].cityId
+      req.districtId = userInfo[0].districtId
+      next();
+      } else {
+        res.status(403).json({message : "not our member"})
+      }
+};
 
-module.exports = { getUserIdByVerifyToken };
+
+module.exports = { getUserIdByVerifyToken, getUserDistrictInfo };
