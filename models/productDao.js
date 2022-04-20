@@ -25,6 +25,24 @@ const createProduct = async (
     (${title}, ${categoryId}, ${cityId}, ${districtId}, ${price}, ${description},${viewCount}, ${userId})`
   };
 
+  const getProductIdBycreateAt = async(userId) => {
+    return await prisma.$queryRaw`
+    SELECT id FROM products WHERE userId = ${userId} ORDER BY createdAt DESC LIMIT 1`
+  }
+  
+  const uploadProductImages = async (productId, imageURLsAddr) =>{
+  const images = await prisma.$queryRaw`
+  INSERT INTO products_images (productId, imageUrl)
+  VALUES
+  (${productId}, ${imageURLsAddr});
+  `
+  }
+
+
+  
+
   module.exports = {
-    createProduct
+    createProduct,
+    getProductIdBycreateAt,
+    uploadProductImages
   };

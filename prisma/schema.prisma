@@ -169,14 +169,15 @@ model CommentLiked {
 }
 
 model ChatRoom {
-  id        Int       @id @default(autoincrement())
-  productId Int
-  buyerId   Int
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @default(now())
-  buyer     User      @relation(fields: [buyerId], references: [id])
-  product   Product   @relation(fields: [productId], references: [id])
-  Chat      Chat[]
+  id          Int       @id @default(autoincrement())
+  productId   Int
+  buyerId     Int
+  lastVisitAt DateTime?
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @default(now())
+  buyer       User      @relation(fields: [buyerId], references: [id])
+  product     Product   @relation(fields: [productId], references: [id])
+  Chat        Chat[]
 
   @@map("chat_rooms")
 }

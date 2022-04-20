@@ -8,7 +8,7 @@ const createProduct = async (
   price,
   description,
   viewCount,
-  userId
+  userId,
 ) => {
   try {
     return await productDao.createProduct(
@@ -26,4 +26,13 @@ const createProduct = async (
   }
 };
 
-module.exports = { createProduct };
+const getProductIdBycreateAt = async(userId) => {
+ const getProductIdBycreateAt = await productDao.getProductIdBycreateAt(userId)
+ return getProductIdBycreateAt[0].id
+}
+
+const uploadProductImages = async(productId, imageURLsAddr) => {
+  const uploadProductImages = await productDao.uploadProductImages(productId, imageURLsAddr)
+}
+
+module.exports = { createProduct, getProductIdBycreateAt, uploadProductImages };
