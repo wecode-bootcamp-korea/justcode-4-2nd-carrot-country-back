@@ -10,13 +10,13 @@ router.get("/:infoId", infoController.getInfo);
 router.get("/search/info", infoController.getSearchInfos);
 //POST
 router.post(
-  "/:infoId/like",
+  "/:infoId/liked",
   authorization.getUserIdByVerifyToken,
   infoController.postInfoLike
 );
 //DELETE
 router.delete(
-  "/:infoId/unlike",
+  "/:infoId/unliked",
   authorization.getUserIdByVerifyToken,
   infoController.deleteInfoLike
 );
