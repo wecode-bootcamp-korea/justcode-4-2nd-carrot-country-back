@@ -52,17 +52,22 @@ WHERE userId = ${userId} AND id = ${productId};
 const getProductList = async (districtId) => {
   const product = await prisma.$queryRaw`
     SELECT 
-    p.title, 
-    p.price, 
-    p.createdAt, 
-    p.updatedAt,
-    c.cityName, 
-    d.districtName 
+     p.title, 
+     p.price, 
+     p.createdAt, 
+     p.updatedAt,
+     c.cityName, 
+     d.districtName,
+     pi.imageUrl,
+     plike.userId
     FROM products as p 
     LEFT JOIN cities as c ON c.id = p.cityId
     LEFT JOIN districts as d ON d.id = p.districtId
+    LEFT JOIN products_images as pi ON pi.productId = p.id
+    LEFT JOIN products_interested as plike ON plike.productId = p.id 
     WHERE d.id = ${districtId}
-    ORDER by = p.updatedAt
+    ORDER BY p.updatedAt DESC
+
  `;
   return await product;
 };

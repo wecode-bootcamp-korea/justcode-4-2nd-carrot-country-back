@@ -17,6 +17,7 @@ const validLogin = async (req, res, next) => {
 
 const validCreateProduct = async (req, res, next) => {
     const { title, categoryId, price, description } = req.body;
+    console.log("왜 키에러야", req.body.title)
     if (!title || !categoryId || !price || !description) {
       return res.status(400).json({ message: "KEY_ERROR" });
     }

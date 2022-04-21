@@ -8,7 +8,7 @@ const chatRoute = require("./chatRoute");
 const areaRoute = require("./areaRoute");
 
 router.use("/users", userRoute);
-// router.use("/products", productRoute);
+router.use("/products", productRoute);
 router.use("/infos", infoRoute);
 // router.use("/chats", chatRoute);
 router.use("/area", areaRoute);

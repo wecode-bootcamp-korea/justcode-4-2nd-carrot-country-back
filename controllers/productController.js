@@ -97,7 +97,6 @@ const createProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const userId = req.userId;
-    console.log("!나와라 유저아이디", userId);
     const { productId } = req.body;
     const deleteProduct = await productService.deleteProduct(userId, productId);
     return res.status(201).json({ message: "SUCCESS : DELETE A Product" });

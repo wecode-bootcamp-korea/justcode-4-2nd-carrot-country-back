@@ -17,7 +17,7 @@ router.use(
 router.get("", productController.getProductList);
 // router.get("", productController.getProductDetail);
 router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
-// router.post("", keyError.validCreateProduct, productController.createProduct);
+router.post("", keyError.validCreateProduct, productController.createProduct);
 
 // router.post(
 //   "/uploadTest",
