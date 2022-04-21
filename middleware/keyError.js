@@ -35,11 +35,9 @@ const validCreateProduct = async (req, res, next) => {
 
   const validDeleteProduct = async (req, res, next) => {
     const { productId } = req.body;
-
     if (!productId) {
       return res.status(400).json({ message: "KEY_ERROR" });
     }
-
     next();
   };
 

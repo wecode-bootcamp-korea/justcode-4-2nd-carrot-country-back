@@ -9,7 +9,8 @@ const createProduct = async (req, res) => {
     const userId = req.userId;
     const cityId = req.cityId;
     const districtId = req.districtId;
-    const { title, categoryId, price, description, viewCount, imageURLs } = req.body;
+    const { title, categoryId, price, description, viewCount, imageURLs } =
+      req.body;
     const createProduct = await productService.createProduct(
       title,
       categoryId,
@@ -22,21 +23,20 @@ const createProduct = async (req, res) => {
     );
     const productId = await productService.getProductIdBycreateAt(userId);
     //폴더를 지정하거나 생성
-    try {
-      fs.readdirSync(`../database/uploads/productId${productId}`);
-    } catch (error) {
-      console.log(
-        `../database/uploads/productId${productId} 폴더를 생성합니다`
-      );
-      fs.mkdirSync(
-        `../database/uploads/productId${productId}`,
-        { recursive: true },
-        (err) => {
-          console.log(err);
-        }
-      );
-    }
-
+    // try {
+    //   fs.readdirSync(`../database/uploads/productId${productId}`);
+    // } catch (error) {
+    //   console.log(
+    //     `../database/uploads/productId${productId} 폴더를 생성합니다`
+    //   );
+    //   fs.mkdirSync(
+    //     `../database/uploads/productId${productId}`,
+    //     { recursive: true },
+    //     (err) => {
+    //       console.log(err);
+    //     }
+    //   );
+    // }
 
     // const upload = multer({
     //   storage: multer.diskStorage({
@@ -73,6 +73,7 @@ const createProduct = async (req, res) => {
     //   }
     // });
     const imageURLsAddr = `../database/uploads/productId${productId}`;
+
     await productService.uploadProductImages(productId, imageURLsAddr);
     return res.status(201).json({
       message: "SUCCESS : CREATE PRODUCT",
@@ -84,56 +85,53 @@ const createProduct = async (req, res) => {
   }
 };
 
-const uploadImageURLs = async (req, res) =>{
-  const image = req.headers.files
-  console.log("file누구냐", req.headers.files)
-  if (image === undefined) {
-    return res.status(400).json({ message : "no image"})
-  }
-  res.status(200).json({message : "IMAGE_UPLOAD_SUCCESS", image})
-};
+// const uploadImageURLs = async (req, res) =>{
+//   const image = req.headers.files
+//   console.log("file누구냐", req.headers.files)
+//   if (image === undefined) {
+//     return res.status(400).json({ message : "no image"})
+//   }
+//   res.status(200).json({message : "IMAGE_UPLOAD_SUCCESS", image})
+// };
 
 const deleteProduct = async (req, res) => {
-try{
-  const userId = req.userId;
-  console.log("!나와라 유저아이디",userId)
-  const { productId } = req.body;
-  const deleteProduct = await productService.deleteProduct(userId, productId);
-  return res.status(201).json({ message: "SUCCESS : DELETE A Product" });
-
+  try {
+    const userId = req.userId;
+    console.log("!나와라 유저아이디", userId);
+    const { productId } = req.body;
+    const deleteProduct = await productService.deleteProduct(userId, productId);
+    return res.status(201).json({ message: "SUCCESS : DELETE A Product" });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ message: err.message });
   }
-}
+};
 
 const getProductList = async (req, res) => {
   try {
     const districtId = req.districtId;
     const productList = await productService.getProductList(districtId);
-    return res.status(201).json({ productList : productList });
+    return res.status(201).json({ productList: productList });
   } catch (error) {
     console.log(error);
   }
 };
 
 // createdAt , updatedAt, distrct, city, price, chatrooms개수, liked개수 , 사진, 제목
-const getproductDetail = async (req, res) => {
-  try {
-    const productId = req.url.split("/")[1];
-    const detail = await producService.productDetail(productId)
+// const getProductDetail = async (req, res) => {
+//   try {
+//     const productId = req.url.split("/")[1];
+//     const detail = await producService.getProductDetail(productId);
 
-    return res.status(200).json(detail);
-  } catch (err) {
-    console.log(err);
-    return res.status(400).json({ message: err.message });
-  }
-};
-
+//     return res.status(200).json(detail);
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(400).json({ message: err.message });
+//   }
+// };
 
 module.exports = {
   createProduct,
-  uploadImageURLs,
   deleteProduct,
-  getProductList
+  getProductList,
 };

@@ -5,9 +5,9 @@ const keyError = require("../middleware/keyError");
 const multer = require("multer");
 const productController = require("../controllers/productController");
 
-const upload = multer({
-  dest: "../databse/uploads",
-});
+// const upload = multer({
+//   dest: "../databse/uploads",
+// });
 
 router.use(
   authorization.getUserIdByVerifyToken,
@@ -15,8 +15,9 @@ router.use(
 );
 
 router.get("", productController.getProductList);
-router.get("", productController.getProductDetail);
-router.post("", keyError.validCreateProduct, productController.createProduct);
+// router.get("", productController.getProductDetail);
+router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
+// router.post("", keyError.validCreateProduct, productController.createProduct);
 
 // router.post(
 //   "/uploadTest",
@@ -24,6 +25,5 @@ router.post("", keyError.validCreateProduct, productController.createProduct);
 //   productController.uploadImageURLs
 // );
 // router.patch("", keyError.validUpdateProduct, productController.updateProduct);
-router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
 
 module.exports = router;

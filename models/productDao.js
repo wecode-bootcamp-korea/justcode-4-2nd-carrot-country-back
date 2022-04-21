@@ -67,11 +67,10 @@ const getProductList = async (districtId) => {
   return await product;
 };
 
-
 module.exports = {
   createProduct,
   getProductIdBycreateAt,
   uploadProductImages,
   deleteProduct,
-  getProductList
+  getProductList,
 };
