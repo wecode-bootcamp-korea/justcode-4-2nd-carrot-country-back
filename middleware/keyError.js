@@ -33,15 +33,15 @@ const validCreateProduct = async (req, res, next) => {
 //     next();
 //   };
 
-//   const validDeleteCart = async (req, res, next) => {
-//     const { id } = req.body;
+  const validDeleteProduct = async (req, res, next) => {
+    const { productId } = req.body;
 
-//     if (!id) {
-//       return res.status(400).json({ message: "KEY_ERROR" });
-//     }
+    if (!productId) {
+      return res.status(400).json({ message: "KEY_ERROR" });
+    }
 
-//     next();
-//   };
+    next();
+  };
 
 //   const validAddOptionCart = async (req, res, next) => {
 //     const { id, totalPrice } = req.body;
@@ -57,4 +57,5 @@ module.exports = {
   validLogin,
   validSignup,
   validCreateProduct,
+  validDeleteProduct 
 };

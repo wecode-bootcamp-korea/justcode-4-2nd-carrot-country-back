@@ -37,4 +37,9 @@ const login = async (userId, password) => {
   return token;
 };
 
-module.exports = { signup, login };
+const deleteProduct = async (userId, productId) => {
+  const deleteComplete = await userDao.deleteProduct(userId, productId)
+  return deleteComplete
+}
+
+module.exports = { signup, login, deleteProduct };
