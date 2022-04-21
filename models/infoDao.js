@@ -118,8 +118,45 @@ const getSearchInfos = async (keyword) => {
   });
 };
 
+const getInfoComments = async (infoId) => {
+  return await prisma.comment.findMany({
+    where: {
+      id: infoId,
+    },
+    select: {
+      comment: true,
+      createdAt: true,
+      user: {
+        select: {
+          id: true,
+          nickname: true,
+          city: {
+            select: {
+              id: true,
+              cityName: true,
+            },
+          },
+          district: {
+            select: {
+              id: true,
+              districtName: true,
+            },
+          },
+        },
+      },
+      commentLiked: {
+        select: {
+          id: true,
+          userId: true,
+        },
+      },
+    },
+  });
+};
+
 module.exports = {
   getInfos,
   getInfo,
   getSearchInfos,
+  getInfoComments,
 };

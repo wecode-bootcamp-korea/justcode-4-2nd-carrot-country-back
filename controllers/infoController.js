@@ -37,4 +37,17 @@ const getSearchInfos = async (req, res, next) => {
   }
 };
 
-module.exports = { getInfos, getInfo, getSearchInfos };
+const getInfoComments = async (req, res, next) => {
+  try {
+    const { infoId } = req.params;
+    if (!infoId) {
+      throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
+    }
+    const infoComments = await infoService.getInfoComments(Number(infoId));
+    return res.status(200).json({ message: "SUCCESS", infoComments });
+  } catch (err) {
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+module.exports = { getInfos, getInfo, getSearchInfos, getInfoComments };
