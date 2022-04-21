@@ -19,14 +19,14 @@ model User {
 
   city              City                @relation(fields: [cityId], references: [id])
   district          District            @relation(fields: [districtId], references: [id])
-  DistrictInfo      DistrictInfo[]
-  Comment           Comment[]
-  CommentLiked      CommentLiked[]
-  Chat              Chat[]
-  Product           Product[]
-  ChatRoom          ChatRoom[]
-  DistrictInfoLiked DistrictInfoLiked[]
-  ProductInterested ProductInterested[]
+  districtInfo      DistrictInfo[]
+  comment           Comment[]
+  commentLiked      CommentLiked[]
+  chat              Chat[]
+  product           Product[]
+  chatRoom          ChatRoom[]
+  districtInfoLiked DistrictInfoLiked[]
+  productInterested ProductInterested[]
 
   @@map("users")
 }
@@ -49,9 +49,9 @@ model Product {
   city             City                @relation(fields: [cityId], references: [id])
   district         District            @relation(fields: [districtId], references: [id])
   user             User                @relation(fields: [userId], references: [id])
-  ProductImage     ProductImage[]
-  ProductIntrested ProductInterested[]
-  ChatRoom         ChatRoom[]
+  productImage     ProductImage[]
+  productIntrested ProductInterested[]
+  chatRoom         ChatRoom[]
   @@map("products")
 }
 
@@ -59,7 +59,7 @@ model Category {
   id           Int       @id @default(autoincrement())
   categoryName String    @unique @db.VarChar(100)
   createdAt    DateTime? @default(now())
-  Product      Product[]
+  product      Product[]
 
   @@map("categories")
 }
@@ -80,10 +80,10 @@ model City {
   cityName  String    @unique
   createdAt DateTime? @default(now())
 
-  Product      Product[]
-  User         User[]
-  DistrictInfo DistrictInfo[]
-  District     District[]
+  product      Product[]
+  user         User[]
+  districtInfo DistrictInfo[]
+  district     District[]
   @@map("cities")
 }
 
@@ -94,9 +94,9 @@ model District {
   createdAt    DateTime? @default(now())
 
   city         City           @relation(fields: [cityId], references: [id])
-  Product      Product[]
-  User         User[]
-  DistrictInfo DistrictInfo[]
+  product      Product[]
+  user         User[]
+  districtInfo DistrictInfo[]
   @@map("districts")
 }
 
@@ -119,14 +119,15 @@ model DistrictInfo {
   userId     Int
   title      String
   content    String
+  viewCount  Int?
   createdAt  DateTime? @default(now())
   updatedAt  DateTime? @default(now())
   city       City      @relation(fields: [cityId], references: [id])
   district   District  @relation(fields: [districtId], references: [id])
   user       User      @relation(fields: [userId], references: [id])
 
-  Comment           Comment[]
-  DistrictInfoLiked DistrictInfoLiked[]
+  comment           Comment[]
+  districtInfoLiked DistrictInfoLiked[]
 
   @@map("districts_infos")
 }
@@ -152,7 +153,7 @@ model Comment {
   updatedAt    DateTime?      @default(now())
   info         DistrictInfo   @relation(fields: [infoId], references: [id])
   user         User           @relation(fields: [userId], references: [id])
-  CommentLiked CommentLiked[]
+  commentLiked CommentLiked[]
 
   @@map("commnets")
 }
@@ -177,7 +178,7 @@ model ChatRoom {
   updatedAt   DateTime? @default(now())
   buyer       User      @relation(fields: [buyerId], references: [id])
   product     Product   @relation(fields: [productId], references: [id])
-  Chat        Chat[]
+  chat        Chat[]
 
   @@map("chat_rooms")
 }
