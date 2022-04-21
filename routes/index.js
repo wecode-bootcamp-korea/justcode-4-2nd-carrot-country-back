@@ -6,11 +6,13 @@ const productRoute = require("./productRoute");
 const infoRoute = require("./infoRoute");
 const chatRoute = require("./chatRoute");
 const areaRoute = require("./areaRoute");
+const categoryRoute = require("./categoryRoute");
 
 router.use("/users", userRoute);
 // router.use("/products", productRoute);
 router.use("/infos", infoRoute);
 // router.use("/chats", chatRoute);
 router.use("/area", areaRoute);
+router.use("/categories", categoryRoute);
 
 module.exports = router; // 이렇게 내보낸 router 는 express app 의 미들웨어로 사용됩니다.
