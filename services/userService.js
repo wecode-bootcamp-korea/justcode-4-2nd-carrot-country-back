@@ -37,9 +37,15 @@ const login = async (userId, password) => {
   return token;
 };
 
-const deleteProduct = async (userId, productId) => {
-  const deleteComplete = await userDao.deleteProduct(userId, productId)
-  return deleteComplete
-}
+const duplicateCheck = async (userId) => {
+  const userCheck = await userDao.checkDuplicateEmail(userId);
+  if (userCheck.length !== 0) {
+    const error = new Error("EXSITING_USER");
+    error.statusCode = 400;
+    throw error;
+  }
+  return userCheck;
+};
 
-module.exports = { signup, login, deleteProduct };
+
+module.exports = { signup, login, duplicateCheck };

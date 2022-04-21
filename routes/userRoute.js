@@ -5,6 +5,7 @@ const userController = require("../controllers/userController");
 const authorization = require("../middleware/authorization")
 
 router.post("/signup", keyError.validSignup, userController.signup);
-router.post("/login",authorization.getUserDistrictInfo, keyError.validLogin, userController.login);
+router.post("/login",keyError.validLogin, userController.login);
+router.post("/signup/duplicate", userController.duplicateCheck);
 
 module.exports = router;
