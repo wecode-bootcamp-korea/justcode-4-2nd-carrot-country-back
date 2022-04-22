@@ -118,8 +118,22 @@ const getSearchInfos = async (keyword) => {
   });
 };
 
+const postInfoLike = async (userId, infoId) => {
+  return await prisma.$queryRaw`
+  INSERT INTO districts_infos_liked(userId, infoId) VALUES (${userId}, ${infoId});
+  `;
+};
+
+const deleteInfoLike = async (userId, infoId) => {
+  return await prisma.$queryRaw`
+  DELETE FROM districts_infos_liked WHERE userId = ${userId} AND infoID = ${infoId};
+  `;
+};
+
 module.exports = {
   getInfos,
   getInfo,
   getSearchInfos,
+  postInfoLike,
+  deleteInfoLike,
 };

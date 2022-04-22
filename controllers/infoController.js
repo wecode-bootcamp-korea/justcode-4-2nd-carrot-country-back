@@ -37,4 +37,34 @@ const getSearchInfos = async (req, res, next) => {
   }
 };
 
-module.exports = { getInfos, getInfo, getSearchInfos };
+const postInfoLike = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const { infoId } = req.params;
+
+    await infoService.postInfoLike(userId, Number(infoId));
+    return res.status(200).json({ message: "SUCCESS" });
+  } catch (err) {
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+const deleteInfoLike = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const { infoId } = req.params;
+
+    await infoService.deleteInfoLike(userId, Number(infoId));
+    return res.status(200).json({ message: "SUCCESS" });
+  } catch (err) {
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+module.exports = {
+  getInfos,
+  getInfo,
+  getSearchInfos,
+  postInfoLike,
+  deleteInfoLike,
+};
