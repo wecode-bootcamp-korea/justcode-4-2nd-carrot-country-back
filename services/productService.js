@@ -31,11 +31,8 @@ const getProductIdBycreateAt = async (userId) => {
   return getProductIdBycreateAt[0].id;
 };
 
-const uploadProductImages = async (productId, imageURLsAddr) => {
-  const uploadProductImages = await productDao.uploadProductImages(
-    productId,
-    imageURLsAddr
-  );
+const createProductImages = async (path) => {
+  const images = await productDao.createProductImages(path);
 };
 
 const deleteProduct = async (productId, userId) => {
@@ -50,13 +47,13 @@ const getProductList = async (districtId, cityId) => {
   }
 };
 
-const getBestProducts = async () =>{
-  try{
+const getBestProducts = async () => {
+  try {
     return await productDao.getBestProducts();
-  } catch (error){
+  } catch (error) {
     console.log(error);
   }
-}
+};
 
 const getProductDetail = async (productId) => {
   try {
@@ -69,9 +66,10 @@ const getProductDetail = async (productId) => {
 module.exports = {
   createProduct,
   getProductIdBycreateAt,
-  uploadProductImages,
+  // uploadProductImages,
   deleteProduct,
   getProductList,
   getBestProducts,
-  getProductDetail
+  getProductDetail,
+  createProductImages,
 };

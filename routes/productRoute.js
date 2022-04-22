@@ -4,8 +4,19 @@ const authorization = require("../middleware/authorization");
 const keyError = require("../middleware/keyError");
 const multer = require("multer");
 const productController = require("../controllers/productController");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, `database/uploads/`);
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
+  },
+});
 const upload = multer({
-  dest: "../database/uploads",
+  storage: storage,
 });
 
 //로그인 안해도 접근가능
@@ -19,13 +30,15 @@ router.get("", productController.getProductList);
 router.get("/:productId", productController.getProductDetail);
 router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
 router.post("", keyError.validCreateProduct, productController.createProduct);
-// router.post("/images",upload.array("imageURLs, 10"),productController.createProductImages)
+router.post(
+  "/images",
+  upload.array("images"),
+  function (req, res, next) {
+    next();
+  },
+  productController.createProductImages
+);
 
-// router.post(
-//   "/uploadTest",
-//   upload.array("imageURLs", 10),
-//   productController.uploadImageURLs
-// );
 // router.patch("", keyError.validUpdateProduct, productController.updateProduct);
 
 module.exports = router;

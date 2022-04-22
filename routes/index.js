@@ -4,7 +4,7 @@ const router = express.Router(); // express 라우팅 기능을 사용하기 위
 const userRoute = require("./userRoute");
 const productRoute = require("./productRoute");
 const infoRoute = require("./infoRoute");
-const chatRoute = require("./chatRoute");
+// const chatRoute = require("./chatRoute");
 const areaRoute = require("./areaRoute");
 const categoryRoute = require("./categoryRoute");
 

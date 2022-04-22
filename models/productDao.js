@@ -8,7 +8,6 @@ const createProduct = async (
   districtId,
   price,
   description,
-  viewCount,
   userId
 ) => {
   return await prisma.$queryRaw`
@@ -29,12 +28,14 @@ const getProductIdBycreateAt = async (userId) => {
     SELECT id FROM products WHERE userId = ${userId} ORDER BY createdAt DESC LIMIT 1`;
 };
 
-const uploadProductImages = async (productId, imageURLsAddr) => {
-  const images = await prisma.$queryRaw`
+const createProductImages = async (path) => {
+  console.log("path야",path)
+  return path.forEach(async (path) =>
+  await prisma.$queryRaw`
   INSERT INTO products_images (productId, imageUrl)
   VALUES
-  (${productId}, ${imageURLsAddr});
-  `;
+  (1, ${path});
+  `);
 };
 
 const deleteProduct = async (userId, productId) => {
@@ -201,12 +202,15 @@ const getProductDetail = async (productId) => {
   });
 };
 
+
+
+
 module.exports = {
   createProduct,
   getProductIdBycreateAt,
-  uploadProductImages,
   deleteProduct,
   getProductList,
   getBestProducts,
   getProductDetail,
+  createProductImages
 };
