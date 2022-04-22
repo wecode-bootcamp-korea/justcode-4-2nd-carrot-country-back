@@ -1,39 +1,35 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getInfo = async (id) => {
-  return await prisma.districtInfo.findUnique({
-    where: {
-      id: id,
-    },
+const getInfos = async () => {
+  return await prisma.districtInfo.findMany({
     select: {
       id: true,
       title: true,
       content: true,
-      createdAt: true,
       viewCount: true,
-      user: {
+      city: {
         select: {
           id: true,
-          nickname: true,
-          city: {
-            select: {
-              id: true,
-              cityName: true,
-            },
-          },
-          district: {
-            select: {
-              id: true,
-              districtName: true,
-            },
-          },
+          cityName: true,
+        },
+      },
+      district: {
+        select: {
+          id: true,
+          districtName: true,
+        },
+      },
+      districtInfoImage: {
+        take: 1,
+        select: {
+          id: true,
+          imageUrl: true,
         },
       },
       districtInfoLiked: {
         select: {
           id: true,
-          userId: true,
         },
       },
     },
@@ -41,5 +37,5 @@ const getInfo = async (id) => {
 };
 
 module.exports = {
-  getInfo,
+  getInfos
 };

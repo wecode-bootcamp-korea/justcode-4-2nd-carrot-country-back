@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -52,6 +53,7 @@ model Product {
   productImage     ProductImage[]
   productIntrested ProductInterested[]
   chatRoom         ChatRoom[]
+  @@fulltext([title])
   @@map("products")
 }
 
@@ -129,7 +131,20 @@ model DistrictInfo {
   comment           Comment[]
   districtInfoLiked DistrictInfoLiked[]
 
+  districtInfoImage DistrictInfoImage[]
+  @@fulltext([content, title])
   @@map("districts_infos")
+}
+
+model DistrictInfoImage {
+  id        Int          @id @default(autoincrement())
+  infoId    Int
+  imageUrl  String
+  createdAt DateTime?    @default(now())
+  updatedAt DateTime?    @default(now())
+  info      DistrictInfo @relation(fields: [infoId], references: [id])
+
+  @@map("districts_infos_images")
 }
 
 model DistrictInfoLiked {

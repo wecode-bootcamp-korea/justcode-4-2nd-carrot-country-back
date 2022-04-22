@@ -7,7 +7,6 @@ const createProduct = async (
   districtId,
   price,
   description,
-  viewCount,
   userId
 ) => {
   try {
@@ -18,13 +17,13 @@ const createProduct = async (
       districtId,
       price,
       description,
-      viewCount,
       userId
     );
   } catch (err) {
     console.log(err);
   }
 };
+
 const getProductIdBycreateAt = async (userId) => {
   const getProductIdBycreateAt = await productDao.getProductIdBycreateAt(
     userId
@@ -43,17 +42,25 @@ const deleteProduct = async (productId, userId) => {
   await productDao.deleteProduct(productId, userId);
 };
 
-const getProductList = async (districtId) => {
+const getProductList = async (districtId, cityId) => {
   try {
-    return await productDao.getProductList(districtId);
+    return await productDao.getProductList(districtId, cityId);
   } catch (error) {
     console.log(error);
   }
 };
 
-const getProductDetail = async (product_id) => {
+const getBestProducts = async () =>{
+  try{
+    return await productDao.getBestProducts();
+  } catch (error){
+    console.log(error);
+  }
+}
+
+const getProductDetail = async (productId) => {
   try {
-    return await productDao.getDetailList(product_id);
+    return await productDao.getProductDetail(productId);
   } catch (error) {
     console.log(error);
   }
@@ -65,4 +72,6 @@ module.exports = {
   uploadProductImages,
   deleteProduct,
   getProductList,
+  getBestProducts,
+  getProductDetail
 };

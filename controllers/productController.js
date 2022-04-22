@@ -9,8 +9,7 @@ const createProduct = async (req, res) => {
     const userId = req.userId;
     const cityId = req.cityId;
     const districtId = req.districtId;
-    const { title, categoryId, price, description, viewCount, imageURLs } =
-      req.body;
+    const { title, categoryId, price, description, imageURLs } = req.body;
     const createProduct = await productService.createProduct(
       title,
       categoryId,
@@ -85,6 +84,16 @@ const createProduct = async (req, res) => {
   }
 };
 
+// const images = {
+//   createProductImages : async(req, res) =>{
+//     const url = req.rile.path;
+//     console.log(req.file)
+//     if (url === undefined) {
+//       return res.status(400).send()
+//     }
+//   }
+// }
+
 // const uploadImageURLs = async (req, res) =>{
 //   const image = req.headers.files
 //   console.log("file누구냐", req.headers.files)
@@ -98,8 +107,8 @@ const deleteProduct = async (req, res) => {
   try {
     const userId = req.userId;
     const { productId } = req.body;
-    const deleteProduct = await productService.deleteProduct(userId, productId);
-    return res.status(201).json({ message: "SUCCESS : DELETE A Product" });
+    await productService.deleteProduct(userId, productId);
+    return res.status(201).json({ message: "SUCCESS DELETE A Product" });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ message: err.message });
@@ -109,28 +118,40 @@ const deleteProduct = async (req, res) => {
 const getProductList = async (req, res) => {
   try {
     const districtId = req.districtId;
-    const productList = await productService.getProductList(districtId);
+    const cityId = req.cityId;
+    const productList = await productService.getProductList(districtId, cityId);
     return res.status(201).json({ productList: productList });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: err.message });
   }
 };
 
-// createdAt , updatedAt, distrct, city, price, chatrooms개수, liked개수 , 사진, 제목
-// const getProductDetail = async (req, res) => {
-//   try {
-//     const productId = req.url.split("/")[1];
-//     const detail = await producService.getProductDetail(productId);
+const getBestProducts = async (req, res) => {
+  try {
+    const bestProduct = await productService.getBestProducts();
+    return res.status(201).json({ bestProduct: bestProduct });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: err.message });
+  }
+};
 
-//     return res.status(200).json(detail);
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json({ message: err.message });
-//   }
-// };
+const getProductDetail = async (req, res) => {
+  try {
+    const productId = req.url.split("/")[1];
+    const detail = await productService.getProductDetail(productId);
+    return res.status(200).json({ detail: detail });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: err.message });
+  }
+};
 
 module.exports = {
   createProduct,
   deleteProduct,
   getProductList,
+  getBestProducts,
+  getProductDetail,
 };
