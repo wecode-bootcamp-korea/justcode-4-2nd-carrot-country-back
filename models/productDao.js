@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+//매물 등록 API (1) - text onfo
 const createProduct = async (
   title,
   categoryId,
@@ -23,19 +24,25 @@ const createProduct = async (
     (${title}, ${categoryId}, ${cityId}, ${districtId}, ${price}, ${description},${userId})`;
 };
 
+//매물 등록하고 생성된 product Id 확인
 const getProductIdBycreateAt = async (userId) => {
   return await prisma.$queryRaw`
     SELECT id FROM products WHERE userId = ${userId} ORDER BY createdAt DESC LIMIT 1`;
 };
 
-const createProductImages = async (path) => {
-  console.log("path야",path)
-  return path.forEach(async (path) =>
-  await prisma.$queryRaw`
+//이미지 등록
+const createProductImages = async (path, productId) => {
+  const productIdArr = [];
+  productIdArr.push(productId);
+  return productIdArr.forEach(async (productIdArr) =>
+    path.forEach(
+      async (path) =>
+        await prisma.$queryRaw`
   INSERT INTO products_images (productId, imageUrl)
   VALUES
-  (1, ${path});
-  `);
+  (${productIdArr}, ${path});
+  `)
+  );
 };
 
 const deleteProduct = async (userId, productId) => {
@@ -48,6 +55,7 @@ WHERE userId = ${userId} AND id = ${productId};
 `;
 };
 
+//매물 리스트 페이지 정보 불러오기 API (유저의 지역에 해당되는 매물)
 const getProductList = async (districtId, cityId) => {
   return await prisma.product.findMany({
     orderBy: {
@@ -144,7 +152,7 @@ const getBestProducts = async () => {
   });
 };
 
-//getProductDetail
+//매물 디테일 페이지 정보 불러오기 API
 const getProductDetail = async (productId) => {
   return await prisma.product.findMany({
     where: {
@@ -202,9 +210,6 @@ const getProductDetail = async (productId) => {
   });
 };
 
-
-
-
 module.exports = {
   createProduct,
   getProductIdBycreateAt,
@@ -212,5 +217,5 @@ module.exports = {
   getProductList,
   getBestProducts,
   getProductDetail,
-  createProductImages
+  createProductImages,
 };

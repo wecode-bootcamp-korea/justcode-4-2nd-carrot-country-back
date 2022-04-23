@@ -9,8 +9,8 @@ const createProduct = async (req, res) => {
     const userId = req.userId;
     const cityId = req.cityId;
     const districtId = req.districtId;
-    const { title, categoryId, price, description, imageURLs } = req.body;
-    const createProduct = await productService.createProduct(
+    const { title, categoryId, price, description } = req.body;
+    await productService.createProduct(
       title,
       categoryId,
       cityId,
@@ -21,7 +21,7 @@ const createProduct = async (req, res) => {
     );
     const productId = await productService.getProductIdBycreateAt(userId);
     return res.status(201).json({
-      message: "SUCCESS : CREATE PRODUCT",
+      message: "SUCCESS CREATE PRODUCT",
       productId: productId,
     });
   } catch (err) {
@@ -30,17 +30,23 @@ const createProduct = async (req, res) => {
   }
 };
 
+//이미지 등록
 const createProductImages = async (req, res, next) => {
+  const userId = req.userId;
+  const productId = await productService.getProductIdBycreateAt(userId);
   const images = req.files;
-  console.log("images야","images")
   const path = images.map((image) => image.path);
   if (images === undefined) {
-    return res.status(400).json({ message: "no image" });
+    return res.status(400).json({ message: "NO IMAGE" });
   }
-  const uploadImages = await productService.createProductImages(path);
-  res.status(200).json({ message: "IMAGE_UPLOAD_SUCCESS", path });
+  await productService.createProductImages(path, productId);
+  res.status(200).json({
+    message: "IMAGE_UPLOAD_SUCCESS",
+    imageURLs: path,
+  });
 };
 
+//(예비) 이미지 삭제
 const deleteProduct = async (req, res) => {
   try {
     const userId = req.userId;

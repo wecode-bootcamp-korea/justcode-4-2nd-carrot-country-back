@@ -31,8 +31,8 @@ const getProductIdBycreateAt = async (userId) => {
   return getProductIdBycreateAt[0].id;
 };
 
-const createProductImages = async (path) => {
-  const images = await productDao.createProductImages(path);
+const createProductImages = async (path, productId) => {
+  const images = await productDao.createProductImages(path, productId);
 };
 
 const deleteProduct = async (productId, userId) => {
