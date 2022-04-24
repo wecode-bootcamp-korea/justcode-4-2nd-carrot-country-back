@@ -38,6 +38,11 @@ router.post(
   },
   productController.createProductImages
 );
+
+
+// router.patch("", keyError.validUpdateProduct, productController.updateProduct);
+
+
 router.post(
   "/:productId/interested",
   keyError.validProductInterested,
@@ -47,6 +52,6 @@ router.delete(
   "/:productId/unInterested",
   productController.productUnInterested
 );
-// router.patch("", keyError.validUpdateProduct, productController.updateProduct);
+
 
 module.exports = router;
