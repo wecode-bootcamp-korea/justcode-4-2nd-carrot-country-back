@@ -16,44 +16,44 @@ const validLogin = async (req, res, next) => {
 };
 
 const validCreateProduct = async (req, res, next) => {
-    const { title, categoryId, price, description } = req.body;
-    if (!title || !categoryId || !price || !description) {
-      return res.status(400).json({ message: "KEY_ERROR" });
-    }
-    next();
-  };
+  const { title, categoryId, price, description } = req.body;
+  if (!title || !categoryId || !price || !description) {
+    return res.status(400).json({ message: "KEY_ERROR" });
+  }
+  next();
+};
 
-//   const validUpdateCart = async (req, res, next) => {
-//     const { id, quantity, totalPrice } = req.body;
+//   const validUpdateProduct = async (req, res, next) => {
+//     const {  } = req.body;
 
-//     if (!id || !quantity || !totalPrice) {
+//     if ( ||  || ) {
 //       return res.status(400).json({ message: "KEY_ERROR" });
 //     }
 
 //     next();
 //   };
 
-  const validDeleteProduct = async (req, res, next) => {
-    const { productId } = req.body;
-    if (!productId) {
-      return res.status(400).json({ message: "KEY_ERROR" });
-    }
-    next();
-  };
+const validDeleteProduct = async (req, res, next) => {
+  const { productId } = req.body;
+  if (!productId) {
+    return res.status(400).json({ message: "KEY_ERROR" });
+  }
+  next();
+};
 
-//   const validAddOptionCart = async (req, res, next) => {
-//     const { id, totalPrice } = req.body;
+const validProductInterested = async (req, res, next) => {
+  const productId = req.url.split("/")[1];
+  if (!productId) {
+    return res.status(400).json({ message: "KEY_ERROR" });
+  }
 
-//     if (!id || !totalPrice) {
-//       return res.status(400).json({ message: "KEY_ERROR" });
-//     }
-
-//     next();
-//   };
+  next();
+};
 
 module.exports = {
   validLogin,
   validSignup,
   validCreateProduct,
-  validDeleteProduct 
+  validDeleteProduct,
+  validProductInterested,
 };

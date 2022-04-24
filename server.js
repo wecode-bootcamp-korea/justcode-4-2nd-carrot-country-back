@@ -7,6 +7,7 @@ const cors = require("cors");
 const prisma = new PrismaClient();
 const app = express();
 
+
 // dotenv.config();
 app.use(cors());
 app.use(express.json());
@@ -19,8 +20,6 @@ app.get("/ping", (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
 
 const server = http.createServer(app);
 const PORT = process.env.PORT;

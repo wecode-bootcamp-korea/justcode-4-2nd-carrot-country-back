@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-//매물 등록 API (1) - text onfo
+//매물 등록 API (1) - text info
 const createProduct = async (
   title,
   categoryId,
@@ -41,7 +41,8 @@ const createProductImages = async (path, productId) => {
   INSERT INTO products_images (productId, imageUrl)
   VALUES
   (${productIdArr}, ${path});
-  `)
+  `
+    )
   );
 };
 
@@ -210,6 +211,31 @@ const getProductDetail = async (productId) => {
   });
 };
 
+const duplicateInterested = async(userId, productId) => {
+  return await prisma.$queryRaw`
+  SELECT id from products_interested where userId = ${userId} AND productId =${productId}
+`;
+}
+
+const productInterested = async (userId, productId) => {
+  const interested = await prisma.productInterested.create({
+    data: {
+      userId: userId,
+      productId: productId,
+    },
+  });
+  return interested
+};
+
+const productUnInterested = async (userId, productId) => {
+  await prisma.productInterested.deleteMany({
+    where: {
+      userId: userId,
+      productId: productId,
+    },
+  });
+};
+
 module.exports = {
   createProduct,
   getProductIdBycreateAt,
@@ -218,4 +244,7 @@ module.exports = {
   getBestProducts,
   getProductDetail,
   createProductImages,
+  productInterested,
+  productUnInterested,
+  duplicateInterested
 };

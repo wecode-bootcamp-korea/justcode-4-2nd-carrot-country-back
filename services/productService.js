@@ -9,7 +9,6 @@ const createProduct = async (
   description,
   userId
 ) => {
-  try {
     return await productDao.createProduct(
       title,
       categoryId,
@@ -19,9 +18,6 @@ const createProduct = async (
       description,
       userId
     );
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 const getProductIdBycreateAt = async (userId) => {
@@ -32,7 +28,7 @@ const getProductIdBycreateAt = async (userId) => {
 };
 
 const createProductImages = async (path, productId) => {
-  const images = await productDao.createProductImages(path, productId);
+  await productDao.createProductImages(path, productId);
 };
 
 const deleteProduct = async (productId, userId) => {
@@ -40,36 +36,45 @@ const deleteProduct = async (productId, userId) => {
 };
 
 const getProductList = async (districtId, cityId) => {
-  try {
     return await productDao.getProductList(districtId, cityId);
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 const getBestProducts = async () => {
-  try {
     return await productDao.getBestProducts();
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 const getProductDetail = async (productId) => {
-  try {
     return await productDao.getProductDetail(productId);
-  } catch (error) {
-    console.log(error);
-  }
+};
+
+const productInterested = async (userId, productId) => {
+    const dataCheck = await productDao.duplicateInterested(userId, productId);
+    if (dataCheck.length !== 0) {
+      const err = new Error("ALREADY LIKED");
+      err.statusCode = 400;
+      throw err;
+    }
+    await productDao.productInterested(userId, productId);
+};
+
+const productUnInterested = async (userId, productId) => {
+    const dataCheck = await productDao.duplicateInterested(userId, productId);
+    if (dataCheck.length === 0) {
+      const err = new Error("ALREADY UNLIKED");
+      err.statusCode = 400;
+      throw err;
+    } 
+    return await productDao.productUnInterested(userId, productId);
 };
 
 module.exports = {
   createProduct,
   getProductIdBycreateAt,
-  // uploadProductImages,
   deleteProduct,
   getProductList,
   getBestProducts,
   getProductDetail,
   createProductImages,
+  productInterested,
+  productUnInterested,
 };

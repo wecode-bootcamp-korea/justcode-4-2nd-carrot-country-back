@@ -27,7 +27,6 @@ const checkUser = async (userId, password) => {
 };
 
 const getUserDistrictInfo = async (userId) => {
-  console.log("여기까지는 왔니?", userId);
   return await prisma.$queryRaw`
     SELECT cityId, districtId from users where id = ${userId}`;
 };
