@@ -39,9 +39,15 @@ router.post(
   productController.createProductImages
 );
 
-
-// router.patch("", keyError.validUpdateProduct, productController.updateProduct);
-
+router.patch("/:productId", productController.updateProduct);
+router.patch(
+  "/:priductId/updateImages",
+  upload.array("updateImages"),
+  function (req, res, next) {
+    next();
+  },
+  productController.updateProductImages
+);
 
 router.post(
   "/:productId/interested",
@@ -52,6 +58,5 @@ router.delete(
   "/:productId/unInterested",
   productController.productUnInterested
 );
-
 
 module.exports = router;

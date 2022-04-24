@@ -23,15 +23,15 @@ const validCreateProduct = async (req, res, next) => {
   next();
 };
 
-//   const validUpdateProduct = async (req, res, next) => {
-//     const {  } = req.body;
+// const validUpdateProduct = async (req, res, next) => {
+//   const { title, categoryId, price, description } = req.body;
 
-//     if ( ||  || ) {
-//       return res.status(400).json({ message: "KEY_ERROR" });
-//     }
+//   if (!title && !categoryId && !price && !description &&images) {
+//     return res.status(400).json({ message: "NO UPDATED CONTENTS" });
+//   }
 
-//     next();
-//   };
+//   next();
+// };
 
 const validDeleteProduct = async (req, res, next) => {
   const { productId } = req.body;
@@ -56,4 +56,5 @@ module.exports = {
   validCreateProduct,
   validDeleteProduct,
   validProductInterested,
+  // validUpdateProduct,
 };

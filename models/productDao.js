@@ -46,6 +46,39 @@ const createProductImages = async (path, productId) => {
   );
 };
 
+const updateProductImages = async (path, productId) => {
+  await prisma.$queryRaw`
+  DELETE FROM products_images WHERE productId = ${productId}
+  `;
+  const productIdArr = [];
+  await productIdArr.push(productId);
+  await productIdArr.forEach(async (productIdArr) =>
+    path.forEach(
+      async (path) =>
+        await prisma.$queryRaw`
+  INSERT INTO products_images (productId, imageUrl)
+  VALUES
+  (${productIdArr}, ${path})
+  `
+    )
+  );
+};
+
+//제품정보 수정
+const updateProduct = async (
+  userId,
+  productId,
+  title,
+  categoryId,
+  price,
+  description
+) => {
+  await prisma.$queryRaw`
+  UPDATE products SET title =${title}, categoryId=${categoryId}, price=${price}, description=${description}
+  WHERE id = ${productId} AND userId=${userId}
+  `;
+};
+
 const deleteProduct = async (userId, productId) => {
   await prisma.$queryRaw`
 DELETE FROM products_images WHERE productId = ${productId};
@@ -211,11 +244,11 @@ const getProductDetail = async (productId) => {
   });
 };
 
-const duplicateInterested = async(userId, productId) => {
+const duplicateInterested = async (userId, productId) => {
   return await prisma.$queryRaw`
   SELECT id from products_interested where userId = ${userId} AND productId =${productId}
 `;
-}
+};
 
 const productInterested = async (userId, productId) => {
   const interested = await prisma.productInterested.create({
@@ -224,7 +257,7 @@ const productInterested = async (userId, productId) => {
       productId: productId,
     },
   });
-  return interested
+  return interested;
 };
 
 const productUnInterested = async (userId, productId) => {
@@ -246,5 +279,7 @@ module.exports = {
   createProductImages,
   productInterested,
   productUnInterested,
-  duplicateInterested
+  duplicateInterested,
+  updateProduct,
+  updateProductImages,
 };

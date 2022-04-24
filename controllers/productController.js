@@ -30,7 +30,6 @@ const createProduct = async (req, res) => {
   }
 };
 
-
 //매물 이미지 저장 API
 const createProductImages = async (req, res, next) => {
   try {
@@ -55,10 +54,46 @@ const createProductImages = async (req, res, next) => {
 };
 
 //매물 수정하기 API
+const updateProduct = async (req, res) => {
+  try {
+    const productId = Number(req.url.split("/")[1]);
+    const userId = req.userId;
+    const { title, categoryId, price, description } = req.body;
+    await productService.updateProduct(
+      userId,
+      productId,
+      title,
+      categoryId,
+      price,
+      description
+    );
+    res.status(200).json({ message: "SUCCESS UPDATE" });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
 
-
-
-
+const updateProductImages = async(req, res, next) =>{
+  try {
+    const productId = Number(req.url.split("/")[1]);
+    const updateImages = req.files;
+    const path = updateImages.map((image) => image.path);
+    if (updateImages === undefined) {
+      const err = new Error("NO IMAGE");
+      err.statusCode = 400;
+      throw err;
+    }
+    await productService.updateProductImages(path, productId);
+    res.status(200).json({
+      message: "IMAGE_UPDATED_SUCCESS",
+      imageURLs: path,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+}
 
 //(예비) 매물 삭제
 const deleteProduct = async (req, res) => {
@@ -149,6 +184,7 @@ const productUnInterested = async (req, res) => {
 
 module.exports = {
   createProduct,
+  updateProduct,
   deleteProduct,
   getProductList,
   getBestProducts,
@@ -156,4 +192,5 @@ module.exports = {
   createProductImages,
   productInterested,
   productUnInterested,
+  updateProductImages
 };
