@@ -7,8 +7,8 @@ const cors = require("cors");
 const prisma = new PrismaClient();
 const app = express();
 
-
 // dotenv.config();
+app.use(express.static("./database/uploads"));
 app.use(cors());
 app.use(express.json());
 app.use(routes);

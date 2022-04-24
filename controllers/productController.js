@@ -36,6 +36,7 @@ const createProductImages = async (req, res, next) => {
     const userId = req.userId;
     const productId = await productService.getProductIdBycreateAt(userId);
     const images = req.files;
+    console.log("자르자주소를", req.files);
     const path = images.map((image) => image.path);
     if (images === undefined) {
       const err = new Error("NO IMAGE");
@@ -74,7 +75,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
-const updateProductImages = async(req, res, next) =>{
+const updateProductImages = async (req, res, next) => {
   try {
     const productId = Number(req.url.split("/")[1]);
     const updateImages = req.files;
@@ -93,7 +94,7 @@ const updateProductImages = async(req, res, next) =>{
     console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
-}
+};
 
 //(예비) 매물 삭제
 const deleteProduct = async (req, res) => {
@@ -192,5 +193,5 @@ module.exports = {
   createProductImages,
   productInterested,
   productUnInterested,
-  updateProductImages
+  updateProductImages,
 };
