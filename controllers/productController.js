@@ -143,7 +143,6 @@ const getBestProducts = async (req, res) => {
 // 매물 상세페이지 가져오기
 const getProductDetail = async (req, res) => {
   try {
-    console.log(1, req.params);
     const productId = req.url.split("/")[1];
     const detail = await productService.getProductDetail(productId);
     return res.status(200).json({ detail: detail });
