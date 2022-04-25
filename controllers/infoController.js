@@ -1,5 +1,4 @@
 const infoService = require("../services/infoService");
-
 const errorGenerator = require("../utils/errorGenerator");
 
 const getInfos = async (req, res, next) => {

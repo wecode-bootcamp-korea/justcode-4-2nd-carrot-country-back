@@ -28,7 +28,7 @@ const checkUser = async (userId, password) => {
 
 const getUserDistrictInfo = async (userId) => {
   return await prisma.$queryRaw`
-    SELECT cityId, districtId from users where userId = ${userId}`;
+    SELECT cityId, districtId from users where id = ${userId}`;
 };
 
 module.exports = {

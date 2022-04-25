@@ -11,6 +11,7 @@ const PORT = process.env.PORT;
 
 const { handleSocket } = require("./middleware/socket");
 // dotenv.config();
+app.use(express.static("./database/uploads"));
 app.use(cors());
 app.use(express.json());
 app.use(routes);
