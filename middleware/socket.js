@@ -9,6 +9,7 @@ const handleSocket = (io) => {
           throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
         }
         const room = await chatService.createRoom({ userId, productId });
+        socket.leave(Array.from(socket.rooms)[1]); // 현재는 방을 참가하면 이전방은 나가진다.
         socket.join(room.id);
         callback(room.id);
       } catch (err) {
@@ -21,6 +22,7 @@ const handleSocket = (io) => {
         if (!roomId || !callback) {
           throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
         }
+        socket.leave(Array.from(socket.rooms)[1]); // 현재는 방을 참가하면 이전방은 나가진다.
         socket.join(roomId);
         callback(roomId);
       } catch (err) {
