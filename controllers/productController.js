@@ -36,17 +36,16 @@ const createProductImages = async (req, res, next) => {
     const userId = req.userId;
     const productId = await productService.getProductIdBycreateAt(userId);
     const images = req.files;
-    console.log("자르자주소를", req.files);
-    const path = images.map((image) => image.path);
+    const filename = images.map((image) => image.filename);
     if (images === undefined) {
       const err = new Error("NO IMAGE");
       err.statusCode = 400;
       throw err;
     }
-    await productService.createProductImages(path, productId);
+    await productService.createProductImages(filename, productId);
     res.status(200).json({
       message: "IMAGE_UPLOAD_SUCCESS",
-      imageURLs: path,
+      imageURLs: filename,
     });
   } catch (err) {
     console.log(err);
@@ -79,16 +78,16 @@ const updateProductImages = async (req, res, next) => {
   try {
     const productId = Number(req.url.split("/")[1]);
     const updateImages = req.files;
-    const path = updateImages.map((image) => image.path);
+    const filename = updateImages.map((image) => image.filename);
     if (updateImages === undefined) {
       const err = new Error("NO IMAGE");
       err.statusCode = 400;
       throw err;
     }
-    await productService.updateProductImages(path, productId);
+    await productService.updateProductImages(filename, productId);
     res.status(200).json({
       message: "IMAGE_UPDATED_SUCCESS",
-      imageURLs: path,
+      imageURLs: filename,
     });
   } catch (err) {
     console.log(err);

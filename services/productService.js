@@ -27,8 +27,8 @@ const getProductIdBycreateAt = async (userId) => {
   return getProductIdBycreateAt[0].id;
 };
 
-const createProductImages = async (path, productId) => {
-  await productDao.createProductImages(path, productId);
+const createProductImages = async (filename, productId) => {
+  await productDao.createProductImages(filename, productId);
 };
 
 const updateProduct = async (
@@ -49,8 +49,8 @@ const updateProduct = async (
   );
 };
 
-const updateProductImages = async(path, productId) => {
-  await productDao.updateProductImages(path, productId);
+const updateProductImages = async(filename, productId) => {
+  await productDao.updateProductImages(filename, productId);
 };
 
 const deleteProduct = async (productId, userId) => {

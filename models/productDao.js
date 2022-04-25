@@ -31,34 +31,34 @@ const getProductIdBycreateAt = async (userId) => {
 };
 
 //이미지 등록
-const createProductImages = async (path, productId) => {
+const createProductImages = async (filename, productId) => {
   const productIdArr = [];
   productIdArr.push(productId);
   return productIdArr.forEach(async (productIdArr) =>
-    path.forEach(
-      async (path) =>
+  filename.forEach(
+      async (filename) =>
         await prisma.$queryRaw`
   INSERT INTO products_images (productId, imageUrl)
   VALUES
-  (${productIdArr}, ${path});
+  (${productIdArr}, ${filename});
   `
     )
   );
 };
 
-const updateProductImages = async (path, productId) => {
+const updateProductImages = async (filename, productId) => {
   await prisma.$queryRaw`
   DELETE FROM products_images WHERE productId = ${productId}
   `;
   const productIdArr = [];
   await productIdArr.push(productId);
   await productIdArr.forEach(async (productIdArr) =>
-    path.forEach(
-      async (path) =>
+  filename.forEach(
+      async (filename) =>
         await prisma.$queryRaw`
   INSERT INTO products_images (productId, imageUrl)
   VALUES
-  (${productIdArr}, ${path})
+  (${productIdArr}, ${filename})
   `
     )
   );
