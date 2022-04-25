@@ -35,7 +35,7 @@ const createProductImages = async (filename, productId) => {
   const productIdArr = [];
   productIdArr.push(productId);
   return productIdArr.forEach(async (productIdArr) =>
-  filename.forEach(
+    filename.forEach(
       async (filename) =>
         await prisma.$queryRaw`
   INSERT INTO products_images (productId, imageUrl)
@@ -53,7 +53,7 @@ const updateProductImages = async (filename, productId) => {
   const productIdArr = [];
   await productIdArr.push(productId);
   await productIdArr.forEach(async (productIdArr) =>
-  filename.forEach(
+    filename.forEach(
       async (filename) =>
         await prisma.$queryRaw`
   INSERT INTO products_images (productId, imageUrl)
@@ -188,7 +188,7 @@ const getBestProducts = async () => {
 
 //매물 디테일 페이지 정보 불러오기 API
 const getProductDetail = async (productId) => {
-  return await prisma.product.findMany({
+  return await prisma.product.findUnique({
     where: {
       id: Number(productId),
     },
@@ -204,24 +204,24 @@ const getProductDetail = async (productId) => {
         select: {
           id: true,
           nickname: true,
+          city: {
+            select: {
+              id: true,
+              cityName: true,
+            },
+          },
+          district: {
+            select: {
+              id: true,
+              districtName: true,
+            },
+          },
         },
       },
       category: {
         select: {
           id: true,
           categoryName: true,
-        },
-      },
-      city: {
-        select: {
-          id: true,
-          cityName: true,
-        },
-      },
-      district: {
-        select: {
-          id: true,
-          districtName: true,
         },
       },
       chatRoom: {

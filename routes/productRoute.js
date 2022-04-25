@@ -21,13 +21,13 @@ const upload = multer({
 
 //로그인 안해도 접근가능
 router.get("/best", productController.getBestProducts);
+router.get("/:productId", productController.getProductDetail);
 
 router.use(
   authorization.getUserIdByVerifyToken,
   authorization.getUserDistrictInfo
 );
 router.get("", productController.getProductList);
-router.get("/:productId", productController.getProductDetail);
 router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
 router.post("", keyError.validCreateProduct, productController.createProduct);
 router.post(
@@ -41,7 +41,7 @@ router.post(
 
 router.patch("/:productId", productController.updateProduct);
 router.patch(
-  "/:priductId/updateImages",
+  "/:productId/updateImages",
   upload.array("updateImages"),
   function (req, res, next) {
     next();
