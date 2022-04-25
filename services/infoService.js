@@ -9,4 +9,16 @@ const getInfo = async (id) => {
 const getSearchInfos = async (keyword) => {
   return await infoDao.getSearchInfos(keyword);
 };
-module.exports = { getInfos, getInfo, getSearchInfos };
+const postInfoLike = async (userId, infoId) => {
+  return await infoDao.postInfoLike(userId, infoId);
+};
+const deleteInfoLike = async (userId, infoId) => {
+  return await infoDao.deleteInfoLike(userId, infoId);
+};
+module.exports = {
+  getInfos,
+  getInfo,
+  getSearchInfos,
+  postInfoLike,
+  deleteInfoLike,
+};
