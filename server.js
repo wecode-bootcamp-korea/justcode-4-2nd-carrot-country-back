@@ -26,7 +26,7 @@ app.get("/ping", (req, res) => {
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
-    origin: process.env.CLIENT_PATH,
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
