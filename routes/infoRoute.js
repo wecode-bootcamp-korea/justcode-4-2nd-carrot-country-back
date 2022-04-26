@@ -5,10 +5,16 @@ const authorization = require("../middleware/authorization");
 const infoController = require("../controllers/infoController");
 
 // GET
-router.get("/", infoController.getInfos);
 router.get("/:infoId", infoController.getInfo);
 router.get("/search/info", infoController.getSearchInfos);
 //POST
+router.get(
+  "/",
+  authorization.getUserIdByVerifyToken,
+  authorization.getUserDistrictInfo,
+  infoController.getInfos
+);
+
 router.post(
   "/:infoId/liked",
   authorization.getUserIdByVerifyToken,
@@ -25,6 +31,6 @@ router.post(
   "/:infoId/comment",
   authorization.getUserIdByVerifyToken,
   infoController.createComment
-)
+);
 
 module.exports = router;
