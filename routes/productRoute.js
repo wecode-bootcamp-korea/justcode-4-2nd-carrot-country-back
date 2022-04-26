@@ -23,6 +23,17 @@ const upload = multer({
 router.get("/best", productController.getBestProducts);
 router.get("/:productId", productController.getProductDetail);
 
+router.post(
+  "/:productId/interested",
+  keyError.validProductInterested,
+  productController.productInterested
+);
+
+router.delete(
+  "/:productId/unInterested",
+  productController.productUnInterested
+);
+
 router.use(
   authorization.getUserIdByVerifyToken,
   authorization.getUserDistrictInfo
@@ -47,16 +58,6 @@ router.patch(
     next();
   },
   productController.updateProductImages
-);
-
-router.post(
-  "/:productId/interested",
-  keyError.validProductInterested,
-  productController.productInterested
-);
-router.delete(
-  "/:productId/unInterested",
-  productController.productUnInterested
 );
 
 module.exports = router;
