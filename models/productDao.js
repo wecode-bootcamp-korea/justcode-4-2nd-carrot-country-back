@@ -326,7 +326,11 @@ const getProductDetail = async (productId) => {
       },
       productIntrested: {
         select: {
-          id: true,
+          user: {
+            select: {
+              id: true,
+            },
+          },
         },
       },
       productImage: {

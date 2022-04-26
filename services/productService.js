@@ -86,7 +86,7 @@ const productInterested = async (userId, productId) => {
     err.statusCode = 400;
     throw err;
   }
-  await productDao.productInterested(userId, productId);
+  return await productDao.productInterested(userId, productId);
 };
 
 const productUnInterested = async (userId, productId) => {
