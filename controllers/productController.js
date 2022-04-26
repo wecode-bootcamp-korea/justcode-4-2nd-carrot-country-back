@@ -132,8 +132,33 @@ const getProductList = async (req, res) => {
 // 인기 중고매물 가져오기 (인증/인가 불필요 / viewCount 내림차순)
 const getBestProducts = async (req, res) => {
   try {
-    const bestProduct = await productService.getBestProducts();
-    return res.status(201).json({ bestProduct: bestProduct });
+    const { cityId, districtId } = req.query;
+    // district 만 넘어오는 경우는 err
+    if (cityId === undefined && districtId) {
+      throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
+    }
+    //city 정보만 선택
+    if (cityId && districtId === undefined) {
+      const bestProductsByCity = await productService.getBestProductsBycity(
+        Number(cityId)
+      );
+      return res.status(200).json({ message: "SUCCESS", bestProductsByCity });
+    }
+    //city & district 정보 둘다 선택
+    if (cityId && districtId) {
+      const getBestProductsBycityNDistrict =
+        await productService.getBestProductsBycityNDistrict(
+          Number(cityId),
+          Number(districtId)
+        );
+      return res
+        .status(200)
+        .json({ message: "SUCCESS", getBestProductsBycityNDistrict });
+    }
+    if (!cityId && !districtId) {
+      const bestProduct = await productService.getBestProducts();
+      return res.status(201).json({ bestProduct: bestProduct });
+    }
   } catch (err) {
     console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });

@@ -186,6 +186,101 @@ const getBestProducts = async () => {
   });
 };
 
+const getBestProductsBycity = async (cityId) => {
+  return await prisma.product.findMany({
+    where : {
+      cityId : cityId,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      viewCount: true,
+      updatedAt: true,
+      city: {
+        select: {
+          id: true,
+          cityName: true,
+        },
+      },
+      district: {
+        select: {
+          id: true,
+          districtName: true,
+        },
+      },
+      chatRoom: {
+        select: {
+          id: true,
+        },
+      },
+      productIntrested: {
+        select: {
+          id: true,
+        },
+      },
+      productImage: {
+        take: 1,
+        select: {
+          id: true,
+          imageUrl: true,
+        },
+      },
+    },
+  });
+};
+
+const getBestProductsBycityNDistrict = async (cityId, districtId) => {
+  return await prisma.product.findMany({
+    where : {
+      cityId : cityId,
+      districtId : districtId
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      viewCount: true,
+      updatedAt: true,
+      city: {
+        select: {
+          id: true,
+          cityName: true,
+        },
+      },
+      district: {
+        select: {
+          id: true,
+          districtName: true,
+        },
+      },
+      chatRoom: {
+        select: {
+          id: true,
+        },
+      },
+      productIntrested: {
+        select: {
+          id: true,
+        },
+      },
+      productImage: {
+        take: 1,
+        select: {
+          id: true,
+          imageUrl: true,
+        },
+      },
+    },
+  });
+};
+
 //매물 디테일 페이지 정보 불러오기 API
 const getProductDetail = async (productId) => {
   return await prisma.product.findUnique({
@@ -294,4 +389,6 @@ module.exports = {
   updateProduct,
   updateProductImages,
   updateViewCount,
+  getBestProductsBycity,
+  getBestProductsBycityNDistrict
 };
