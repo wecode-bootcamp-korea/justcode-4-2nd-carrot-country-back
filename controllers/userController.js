@@ -13,10 +13,11 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { userId, password } = req.body;
-    const token = await userService.login(userId, password);
+    const params = await userService.login(userId, password);
     return res.status(201).json({
       message: "SUCCESS_LOGIN",
-      token: token,
+      token: params.token,
+      user: params.user,
     });
   } catch (err) {
     res.status(err.statusCode || 500).json({ message: err.message });
@@ -39,5 +40,23 @@ const duplicateCheck = async (req, res) => {
     res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
+const getUserById = async (req, res) => {
+  try {
+    const id = req.userId;
+    if (!id) {
+      const error = new Error("KEY_ERROR");
+      error.status = 400;
+      throw error;
+    }
 
-module.exports = { signup, login, duplicateCheck };
+    const user = await userService.getUserById(id);
+    return res.status(201).json({
+      message: "SECCESS",
+      user,
+    });
+  } catch (err) {
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+module.exports = { signup, login, duplicateCheck, getUserById };

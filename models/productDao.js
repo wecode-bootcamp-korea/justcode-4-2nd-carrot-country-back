@@ -269,6 +269,17 @@ const productUnInterested = async (userId, productId) => {
   });
 };
 
+const updateViewCount = async (productId, curViewCount) => {
+  await prisma.product.update({
+    where: {
+      id: productId,
+    },
+    data: {
+      viewCount: curViewCount + 1,
+    },
+  });
+};
+
 module.exports = {
   createProduct,
   getProductIdBycreateAt,
@@ -282,4 +293,5 @@ module.exports = {
   duplicateInterested,
   updateProduct,
   updateProductImages,
+  updateViewCount,
 };

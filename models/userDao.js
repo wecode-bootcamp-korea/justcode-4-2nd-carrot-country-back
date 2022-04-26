@@ -20,10 +20,55 @@ const createUser = async (
       `;
 };
 
-const checkUser = async (userId, password) => {
-  return await prisma.$queryRaw`
-      SELECT id, userId, password from users where userId = ${userId}
-    `;
+const checkUser = async (userId) => {
+  return await prisma.user.findUnique({
+    where: {
+      userId: userId,
+    },
+    select: {
+      id: true,
+      userId: true,
+      password: true,
+      nickname: true,
+      city: {
+        select: {
+          id: true,
+          cityName: true,
+        },
+      },
+      district: {
+        select: {
+          id: true,
+          districtName: true,
+        },
+      },
+    },
+  });
+};
+
+const getUserById = async (id) => {
+  return await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      id: true,
+      userId: true,
+      nickname: true,
+      city: {
+        select: {
+          id: true,
+          cityName: true,
+        },
+      },
+      district: {
+        select: {
+          id: true,
+          districtName: true,
+        },
+      },
+    },
+  });
 };
 
 const getUserDistrictInfo = async (userId) => {
@@ -35,5 +80,6 @@ module.exports = {
   checkDuplicateEmail,
   createUser,
   checkUser,
+  getUserById,
   getUserDistrictInfo,
 };
