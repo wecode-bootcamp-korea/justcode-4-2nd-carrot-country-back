@@ -51,8 +51,7 @@ const postInfoLike = async (req, res, next) => {
 const deleteInfoLike = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const { infoId } = req.params;
-
+    const { infoId } =req.params;
     await infoService.deleteInfoLike(userId, Number(infoId));
     return res.status(200).json({ message: "SUCCESS" });
   } catch (err) {
@@ -60,10 +59,24 @@ const deleteInfoLike = async (req, res, next) => {
   }
 };
 
+const createComment = async (req, res, next) =>{
+try{
+  const userId = req.userId;
+  const { infoId } = req.params;
+  const { comment } = req.body
+  await infoService.createComment(userId, Number(infoId), comment)
+  return res.status(200).json({ message: "SUCCESS" });
+ } catch(err){
+   console.log(err);
+  res.status(err.statusCode || 500).json({ message: err.message });
+ }
+}
+
 module.exports = {
   getInfos,
   getInfo,
   getSearchInfos,
   postInfoLike,
   deleteInfoLike,
+  createComment
 };

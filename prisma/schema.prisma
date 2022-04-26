@@ -170,7 +170,7 @@ model Comment {
   user         User           @relation(fields: [userId], references: [id])
   commentLiked CommentLiked[]
 
-  @@map("commnets")
+  @@map("comments")
 }
 
 model CommentLiked {
@@ -181,7 +181,7 @@ model CommentLiked {
   user      User      @relation(fields: [userId], references: [id])
   comment   Comment   @relation(fields: [commnetId], references: [id])
 
-  @@map("commnets_liked")
+  @@map("comments_liked")
 }
 
 model ChatRoom {

@@ -15,10 +15,16 @@ const postInfoLike = async (userId, infoId) => {
 const deleteInfoLike = async (userId, infoId) => {
   return await infoDao.deleteInfoLike(userId, infoId);
 };
+
+const createComment = async (userId, infoId, comment)=>{
+  return await infoDao.createComment(infoId, userId, comment);
+}
+
 module.exports = {
   getInfos,
   getInfo,
   getSearchInfos,
   postInfoLike,
   deleteInfoLike,
+  createComment
 };
