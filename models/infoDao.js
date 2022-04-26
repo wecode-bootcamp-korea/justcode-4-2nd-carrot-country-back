@@ -130,10 +130,40 @@ const deleteInfoLike = async (userId, infoId) => {
   `;
 };
 
+const createComment = async (infoId, userId, comment) => {
+  const writerDistrict = await prisma.user.findMany({
+    where: {
+      id: userId,
+    },
+    select: {
+      id: true,
+      districtId: true,
+    },
+  });
+  const infoDistrict = await prisma.districtInfo.findMany({
+    where: {
+      id: infoId,
+    },
+    select: {
+      id: true,
+      districtId: true,
+    },
+  });
+  if (writerDistrict[0].districtId !== infoDistrict[0].districtId) {
+    const err = new Error("NOT YOUR DISTRICT");
+    err.statusCode = 400;
+    throw err;
+  }
+  return await prisma.$queryRaw`
+  INSERT INTO comments (infoId, userId, comment) VALUES (${infoId}, ${userId}, ${comment});
+  `;
+};
+
 module.exports = {
   getInfos,
   getInfo,
   getSearchInfos,
   postInfoLike,
   deleteInfoLike,
+  createComment,
 };

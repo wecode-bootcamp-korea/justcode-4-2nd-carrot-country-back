@@ -20,5 +20,11 @@ router.delete(
   authorization.getUserIdByVerifyToken,
   infoController.deleteInfoLike
 );
+//CREATE COMMENT
+router.post(
+  "/:infoId/comment",
+  authorization.getUserIdByVerifyToken,
+  infoController.createComment
+)
 
 module.exports = router;
