@@ -21,20 +21,20 @@ const signup = async (userId, nickname, password, cityId, districtId) => {
 };
 
 const login = async (userId, password) => {
-  const user = await userDao.checkUser(userId, password);
-  if (user.length === 0) {
+  const user = await userDao.checkUser(userId);
+  if (!user) {
     const error = new Error("INVALID_USER");
     error.statusCode = 400;
     throw error;
   }
-  const isCorrect = bcrypt.compareSync(password, user[0].password);
+  const isCorrect = bcrypt.compareSync(password, user.password);
   if (!isCorrect) {
     const error = new Error("INVALID_USER");
     error.statusCode = 400;
     throw error;
   }
-  const token = jwt.sign({ id: user[0].id }, process.env.SECRET_KEY);
-  return token;
+  const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+  return { token, user };
 };
 
 const duplicateCheck = async (userId) => {
@@ -47,5 +47,14 @@ const duplicateCheck = async (userId) => {
   return userCheck;
 };
 
+const getUserById = async (userId) => {
+  const user = await userDao.getUserById(userId);
+  if (!user) {
+    const error = new Error("EXSITING_USER");
+    error.statusCode = 400;
+    throw error;
+  }
+  return user;
+};
 
-module.exports = { signup, login, duplicateCheck };
+module.exports = { signup, login, duplicateCheck, getUserById };

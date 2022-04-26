@@ -49,7 +49,7 @@ const updateProduct = async (
   );
 };
 
-const updateProductImages = async(filename, productId) => {
+const updateProductImages = async (filename, productId) => {
   await productDao.updateProductImages(filename, productId);
 };
 
@@ -89,6 +89,10 @@ const productUnInterested = async (userId, productId) => {
   return await productDao.productUnInterested(userId, productId);
 };
 
+const updateViewCount = async (productId, curViewCount) => {
+  return await productDao.updateViewCount(productId, curViewCount);
+};
+
 module.exports = {
   createProduct,
   getProductIdBycreateAt,
@@ -100,5 +104,6 @@ module.exports = {
   productInterested,
   productUnInterested,
   updateProduct,
-  updateProductImages
+  updateProductImages,
+  updateViewCount,
 };

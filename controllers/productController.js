@@ -144,8 +144,10 @@ const getBestProducts = async (req, res) => {
 const getProductDetail = async (req, res) => {
   try {
     const productId = req.url.split("/")[1];
-    const detail = await productService.getProductDetail(productId);
-    return res.status(200).json({ detail: detail });
+    const product = await productService.getProductDetail(productId);
+    await productService.updateViewCount(product.id, product.viewCount);
+
+    return res.status(200).json({ product });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ message: err.message });
