@@ -36,7 +36,6 @@ const getInfos = async () => {
   });
 };
 
-//해당 infoId에 엮여있는 comment 추가하기
 const getInfo = async (id) => {
   return await prisma.districtInfo.findUnique({
     where: {
@@ -70,13 +69,6 @@ const getInfo = async (id) => {
         select: {
           id: true,
           userId: true,
-        },
-      },
-      comment: {
-        select: {
-          id: true,
-          userId: true,
-          comment: true,
         },
       },
     },
