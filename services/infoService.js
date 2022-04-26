@@ -1,7 +1,7 @@
 const infoDao = require("../models/infoDao");
 
-const getInfos = async () => {
-  return await infoDao.getInfos();
+const getInfos = async (cityId, districtId) => {
+  return await infoDao.getInfos(cityId, districtId);
 };
 const getInfo = async (id) => {
   return await infoDao.getInfo(id);

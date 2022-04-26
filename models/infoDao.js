@@ -1,8 +1,19 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getInfos = async () => {
+const getInfos = async (cityId, districtId) => {
   return await prisma.districtInfo.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
+    where: {
+      district: {
+        id: districtId,
+      },
+      city: {
+        id: cityId,
+      },
+    },
     select: {
       id: true,
       title: true,

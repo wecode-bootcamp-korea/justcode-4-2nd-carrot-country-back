@@ -3,7 +3,14 @@ const errorGenerator = require("../utils/errorGenerator");
 
 const getInfos = async (req, res, next) => {
   try {
-    const districtInfos = await infoService.getInfos();
+    const districtId = req.districtId;
+    const cityId = req.cityId;
+    if (!districtId || !cityId) {
+      const err = new Error("NO DISTRICT INFO");
+      err.statusCode = 400;
+      throw err;
+    }
+    const districtInfos = await infoService.getInfos(cityId, districtId);
     return res.status(200).json({ message: "SUCCESS", districtInfos });
   } catch (err) {
     res.status(err.statusCode || 500).json({ message: err.message });
