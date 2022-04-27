@@ -32,7 +32,6 @@ const createProductImages = async (filename, productId) => {
 };
 
 const updateProduct = async (
-  userId,
   productId,
   title,
   categoryId,
@@ -40,7 +39,6 @@ const updateProduct = async (
   description
 ) => {
   await productDao.updateProduct(
-    userId,
     productId,
     title,
     categoryId,
@@ -61,9 +59,19 @@ const getProductList = async (districtId, cityId) => {
   return await productDao.getProductList(districtId, cityId);
 };
 
+
 const getBestProducts = async () => {
   return await productDao.getBestProducts();
 };
+
+
+const getBestProductsBycity = async(cityId) => {
+  return await productDao.getBestProductsBycity(cityId)
+}
+
+const getBestProductsBycityNDistrict = async(cityId, districtId) => {
+  return await productDao.getBestProductsBycityNDistrict(cityId, districtId)
+}
 
 const getProductDetail = async (productId) => {
   return await productDao.getProductDetail(productId);
@@ -81,6 +89,7 @@ const productInterested = async (userId, productId) => {
 
 const productUnInterested = async (userId, productId) => {
   const dataCheck = await productDao.duplicateInterested(userId, productId);
+  console.log("체크결과",dataCheck,dataCheck.length)
   if (dataCheck.length === 0) {
     const err = new Error("ALREADY UNLIKED");
     err.statusCode = 400;
@@ -106,4 +115,6 @@ module.exports = {
   updateProduct,
   updateProductImages,
   updateViewCount,
+  getBestProductsBycity,
+  getBestProductsBycityNDistrict
 };

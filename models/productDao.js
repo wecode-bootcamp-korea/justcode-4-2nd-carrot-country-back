@@ -66,7 +66,6 @@ const updateProductImages = async (filename, productId) => {
 
 //제품정보 수정
 const updateProduct = async (
-  userId,
   productId,
   title,
   categoryId,
@@ -75,17 +74,17 @@ const updateProduct = async (
 ) => {
   await prisma.$queryRaw`
   UPDATE products SET title =${title}, categoryId=${categoryId}, price=${price}, description=${description}
-  WHERE id = ${productId} AND userId=${userId}
+  WHERE id = ${productId}
   `;
 };
 
-const deleteProduct = async (userId, productId) => {
+const deleteProduct = async (productId) => {
   await prisma.$queryRaw`
 DELETE FROM products_images WHERE productId = ${productId};
 `;
   await prisma.$queryRaw`
 DELETE FROM products
-WHERE userId = ${userId} AND id = ${productId};
+WHERE id = ${productId};
 `;
 };
 
@@ -146,6 +145,101 @@ const getBestProducts = async () => {
   return await prisma.product.findMany({
     orderBy: {
       viewCount: "desc",
+    },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      viewCount: true,
+      updatedAt: true,
+      city: {
+        select: {
+          id: true,
+          cityName: true,
+        },
+      },
+      district: {
+        select: {
+          id: true,
+          districtName: true,
+        },
+      },
+      chatRoom: {
+        select: {
+          id: true,
+        },
+      },
+      productIntrested: {
+        select: {
+          id: true,
+        },
+      },
+      productImage: {
+        take: 1,
+        select: {
+          id: true,
+          imageUrl: true,
+        },
+      },
+    },
+  });
+};
+
+const getBestProductsBycity = async (cityId) => {
+  return await prisma.product.findMany({
+    where : {
+      cityId : cityId,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      viewCount: true,
+      updatedAt: true,
+      city: {
+        select: {
+          id: true,
+          cityName: true,
+        },
+      },
+      district: {
+        select: {
+          id: true,
+          districtName: true,
+        },
+      },
+      chatRoom: {
+        select: {
+          id: true,
+        },
+      },
+      productIntrested: {
+        select: {
+          id: true,
+        },
+      },
+      productImage: {
+        take: 1,
+        select: {
+          id: true,
+          imageUrl: true,
+        },
+      },
+    },
+  });
+};
+
+const getBestProductsBycityNDistrict = async (cityId, districtId) => {
+  return await prisma.product.findMany({
+    where : {
+      cityId : cityId,
+      districtId : districtId
+    },
+    orderBy: {
+      updatedAt: "desc",
     },
     select: {
       id: true,
@@ -249,9 +343,10 @@ const getProductDetail = async (productId) => {
 };
 
 const duplicateInterested = async (userId, productId) => {
-  return await prisma.$queryRaw`
+  const data = await prisma.$queryRaw`
   SELECT id from products_interested where userId = ${userId} AND productId =${productId}
 `;
+return data
 };
 
 const productInterested = async (userId, productId) => {
@@ -265,12 +360,13 @@ const productInterested = async (userId, productId) => {
 };
 
 const productUnInterested = async (userId, productId) => {
-  await prisma.productInterested.deleteMany({
+  const datacheck = await prisma.productInterested.deleteMany({
     where: {
       userId: userId,
       productId: productId,
     },
   });
+  return datacheck
 };
 
 const updateViewCount = async (productId, curViewCount) => {
@@ -298,4 +394,6 @@ module.exports = {
   updateProduct,
   updateProductImages,
   updateViewCount,
+  getBestProductsBycity,
+  getBestProductsBycityNDistrict
 };
