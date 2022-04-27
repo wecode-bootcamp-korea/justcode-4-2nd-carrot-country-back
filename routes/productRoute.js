@@ -35,9 +35,8 @@ router.post(
 router.delete(
   "/:productId/unInterested",
   // authorization.getUserIdByVerifyToken,
-  productController.productUnInterested
-);
-
+  productController.productUnInterested)
+  
 router.patch("/:productId", productController.updateProduct);
 router.patch(
   "/:productId/updateImages",
