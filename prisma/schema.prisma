@@ -9,15 +9,14 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  userId     String    @unique @db.VarChar(100)
-  nickname   String    @db.VarChar(100)
-  password   String    @db.VarChar(100)
-  cityId     Int
-  districtId Int
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @default(now())
-
+  id                Int                 @id @default(autoincrement())
+  userId            String              @unique @db.VarChar(100)
+  nickname          String              @db.VarChar(100)
+  password          String              @db.VarChar(100)
+  cityId            Int
+  districtId        Int
+  createdAt         DateTime?           @default(now())
+  updatedAt         DateTime?           @default(now())
   city              City                @relation(fields: [cityId], references: [id])
   district          District            @relation(fields: [districtId], references: [id])
   districtInfo      DistrictInfo[]
@@ -33,19 +32,18 @@ model User {
 }
 
 model Product {
-  id           Int       @id @default(autoincrement())
-  title        String    @db.VarChar(100)
-  categoryId   Int
-  cityId       Int
-  districtId   Int
-  userId       Int
-  price        Decimal?
-  description  String    @db.VarChar(100)
-  viewCount    Int?
-  purchaseDate DateTime?
-  createdAt    DateTime? @default(now())
-  updatedAt    DateTime? @default(now())
-
+  id               Int                 @id @default(autoincrement())
+  title            String              @db.VarChar(100)
+  categoryId       Int
+  cityId           Int
+  districtId       Int
+  userId           Int
+  price            Decimal?
+  description      String              @db.VarChar(100)
+  viewCount        Int?
+  purchaseDate     DateTime?
+  createdAt        DateTime?           @default(now())
+  updatedAt        DateTime?           @default(now())
   category         Category            @relation(fields: [categoryId], references: [id])
   city             City                @relation(fields: [cityId], references: [id])
   district         District            @relation(fields: [districtId], references: [id])
@@ -53,6 +51,7 @@ model Product {
   productImage     ProductImage[]
   productIntrested ProductInterested[]
   chatRoom         ChatRoom[]
+
   @@fulltext([title])
   @@map("products")
 }
@@ -78,27 +77,27 @@ model ProductImage {
 }
 
 model City {
-  id        Int       @id @default(autoincrement())
-  cityName  String    @unique
-  createdAt DateTime? @default(now())
-
+  id           Int            @id @default(autoincrement())
+  cityName     String         @unique
+  createdAt    DateTime?      @default(now())
   product      Product[]
   user         User[]
   districtInfo DistrictInfo[]
   district     District[]
+
   @@map("cities")
 }
 
 model District {
-  id           Int       @id @default(autoincrement())
+  id           Int            @id @default(autoincrement())
   cityId       Int
   districtName String
-  createdAt    DateTime? @default(now())
-
+  createdAt    DateTime?      @default(now())
   city         City           @relation(fields: [cityId], references: [id])
   product      Product[]
   user         User[]
   districtInfo DistrictInfo[]
+
   @@map("districts")
 }
 
@@ -110,28 +109,26 @@ model ProductInterested {
   product   Product   @relation(fields: [productId], references: [id])
   user      User      @relation(fields: [userId], references: [id])
 
-
   @@map("products_interested")
 }
 
 model DistrictInfo {
-  id         Int       @id @default(autoincrement())
-  cityId     Int
-  districtId Int
-  userId     Int
-  title      String
-  content    String
-  viewCount  Int?
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @default(now())
-  city       City      @relation(fields: [cityId], references: [id])
-  district   District  @relation(fields: [districtId], references: [id])
-  user       User      @relation(fields: [userId], references: [id])
-
+  id                Int                 @id @default(autoincrement())
+  cityId            Int
+  districtId        Int
+  userId            Int
+  title             String
+  content           String
+  viewCount         Int?
+  createdAt         DateTime?           @default(now())
+  updatedAt         DateTime?           @default(now())
+  city              City                @relation(fields: [cityId], references: [id])
+  district          District            @relation(fields: [districtId], references: [id])
+  user              User                @relation(fields: [userId], references: [id])
   comment           Comment[]
   districtInfoLiked DistrictInfoLiked[]
-
   districtInfoImage DistrictInfoImage[]
+
   @@fulltext([content, title])
   @@map("districts_infos")
 }

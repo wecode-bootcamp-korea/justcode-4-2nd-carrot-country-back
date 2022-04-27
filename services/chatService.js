@@ -13,6 +13,8 @@ const getRooms = async (userId) => {
 };
 
 const getChats = async (roomId) => {
-  return await chatDao.getChats(roomId);
+  const product = await chatDao.getProductByRoomId(roomId);
+  const chats = await chatDao.getChats(roomId);
+  return { product, chats };
 };
 module.exports = { createRoom, createChat, getRooms, getChats };

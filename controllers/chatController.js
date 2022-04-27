@@ -21,8 +21,14 @@ const getChats = async (req, res, next) => {
     if (!roomId) {
       throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
     }
-    const chats = await chatService.getChats(Number(roomId));
-    return res.status(200).json({ message: "SUCCESS", chats });
+    const data = await chatService.getChats(Number(roomId));
+    return res
+      .status(200)
+      .json({
+        message: "SUCCESS",
+        chats: data.chats,
+        product: data.product.product,
+      });
   } catch (err) {
     res.status(err.statusCode || 500).json({ message: err.message });
   }
