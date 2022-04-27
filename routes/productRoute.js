@@ -35,8 +35,9 @@ router.post(
 router.delete(
   "/:productId/unInterested",
   // authorization.getUserIdByVerifyToken,
-  productController.productUnInterested)
-  
+  productController.productUnInterested
+);
+
 router.patch("/:productId", productController.updateProduct);
 router.patch(
   "/:productId/updateImages",
@@ -53,8 +54,6 @@ router.use(
   authorization.getUserDistrictInfo
 );
 
-router.get("", productController.getProductList);
-router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
 router.post("", keyError.validCreateProduct, productController.createProduct);
 router.post(
   "/images",
@@ -65,4 +64,27 @@ router.post(
   productController.createProductImages
 );
 
+router.get("", productController.getProductList);
+router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
+
+router.patch("/:productId", productController.updateProduct);
+router.patch(
+  "/:productId/updateImages",
+  upload.array("updateImages"),
+  function (req, res, next) {
+    next();
+  },
+  productController.updateProductImages
+);
+
+router.post(
+  "/:productId/interested",
+  keyError.validProductInterested,
+  productController.productInterested
+);
+
+router.delete(
+  "/:productId/unInterested",
+  productController.productUnInterested
+);
 module.exports = router;
