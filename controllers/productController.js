@@ -36,6 +36,7 @@ const createProductImages = async (req, res, next) => {
     const userId = req.userId;
     const productId = await productService.getProductIdBycreateAt(userId);
     const images = req.files;
+    console.log("images", images);
     const filename = images.map((image) => image.filename);
     if (images === undefined) {
       const err = new Error("NO IMAGE");
@@ -57,10 +58,8 @@ const createProductImages = async (req, res, next) => {
 const updateProduct = async (req, res) => {
   try {
     const productId = Number(req.url.split("/")[1]);
-    const userId = req.userId;
     const { title, categoryId, price, description } = req.body;
     await productService.updateProduct(
-      userId,
       productId,
       title,
       categoryId,
@@ -98,9 +97,8 @@ const updateProductImages = async (req, res, next) => {
 //(예비) 매물 삭제
 const deleteProduct = async (req, res) => {
   try {
-    const userId = req.userId;
     const { productId } = req.body;
-    await productService.deleteProduct(userId, productId);
+    await productService.deleteProduct(productId);
     return res.status(201).json({ message: "SUCCESS DELETE A Product" });
   } catch (err) {
     return res.status(err.statusCode || 500).json({ message: err.message });
@@ -182,7 +180,8 @@ const getProductDetail = async (req, res) => {
 //매물 관심있어요 등록 API
 const productInterested = async (req, res) => {
   try {
-    const { productId, userId } = req.body;
+    const userId = req.userId;
+    const productId = Number(req.url.split("/")[1]);
     await productService.productInterested(userId, Number(productId));
     return res.status(200).json({ message: "LIKED SUCCESS" });
   } catch (err) {
@@ -194,7 +193,8 @@ const productInterested = async (req, res) => {
 //매물 관심있어요 취소 API
 const productUnInterested = async (req, res) => {
   try {
-    const { productId, userId } = req.body;
+    const userId = req.userId;
+    const productId = Number(req.url.split("/")[1]);
     if (!productId) {
       const err = new Error("UNVALID URL");
       err.statusCode = 400;

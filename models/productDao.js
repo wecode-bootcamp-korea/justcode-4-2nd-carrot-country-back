@@ -66,7 +66,6 @@ const updateProductImages = async (filename, productId) => {
 
 //제품정보 수정
 const updateProduct = async (
-  userId,
   productId,
   title,
   categoryId,
@@ -75,17 +74,17 @@ const updateProduct = async (
 ) => {
   await prisma.$queryRaw`
   UPDATE products SET title =${title}, categoryId=${categoryId}, price=${price}, description=${description}
-  WHERE id = ${productId} AND userId=${userId}
+  WHERE id = ${productId}
   `;
 };
 
-const deleteProduct = async (userId, productId) => {
+const deleteProduct = async (productId) => {
   await prisma.$queryRaw`
 DELETE FROM products_images WHERE productId = ${productId};
 `;
   await prisma.$queryRaw`
 DELETE FROM products
-WHERE userId = ${userId} AND id = ${productId};
+WHERE id = ${productId};
 `;
 };
 
@@ -344,9 +343,12 @@ const getProductDetail = async (productId) => {
 };
 
 const duplicateInterested = async (userId, productId) => {
-  return await prisma.$queryRaw`
+  console.log("찍어보기", userId, productId)
+  const data = await prisma.$queryRaw`
   SELECT id from products_interested where userId = ${userId} AND productId =${productId}
 `;
+console.log(data)
+return data
 };
 
 const productInterested = async (userId, productId) => {
@@ -356,16 +358,19 @@ const productInterested = async (userId, productId) => {
       productId: productId,
     },
   });
+  console.log("dao", interested)
   return interested;
 };
 
 const productUnInterested = async (userId, productId) => {
-  await prisma.productInterested.deleteMany({
+  const datacheck = await prisma.productInterested.deleteMany({
     where: {
       userId: userId,
       productId: productId,
     },
   });
+  console.log("dao", datacheck)
+  return datacheck
 };
 
 const updateViewCount = async (productId, curViewCount) => {

@@ -8,12 +8,12 @@ const infoController = require("../controllers/infoController");
 router.get("/:infoId", infoController.getInfo);
 router.get("/search/info", infoController.getSearchInfos);
 //POST
-router.get(
-  "/",
+
+router.use(
   authorization.getUserIdByVerifyToken,
-  authorization.getUserDistrictInfo,
-  infoController.getInfos
+  authorization.getUserDistrictInfo
 );
+router.get("/", infoController.getInfos);
 
 router.post(
   "/:infoId/liked",

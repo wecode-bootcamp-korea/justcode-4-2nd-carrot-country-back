@@ -32,7 +32,6 @@ const createProductImages = async (filename, productId) => {
 };
 
 const updateProduct = async (
-  userId,
   productId,
   title,
   categoryId,
@@ -40,7 +39,6 @@ const updateProduct = async (
   description
 ) => {
   await productDao.updateProduct(
-    userId,
     productId,
     title,
     categoryId,
@@ -91,6 +89,7 @@ const productInterested = async (userId, productId) => {
 
 const productUnInterested = async (userId, productId) => {
   const dataCheck = await productDao.duplicateInterested(userId, productId);
+  console.log("체크결과",dataCheck,dataCheck.length)
   if (dataCheck.length === 0) {
     const err = new Error("ALREADY UNLIKED");
     err.statusCode = 400;
