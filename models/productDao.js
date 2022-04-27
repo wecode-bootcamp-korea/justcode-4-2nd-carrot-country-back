@@ -343,11 +343,9 @@ const getProductDetail = async (productId) => {
 };
 
 const duplicateInterested = async (userId, productId) => {
-  console.log("찍어보기", userId, productId)
   const data = await prisma.$queryRaw`
   SELECT id from products_interested where userId = ${userId} AND productId =${productId}
 `;
-console.log(data)
 return data
 };
 
@@ -358,7 +356,6 @@ const productInterested = async (userId, productId) => {
       productId: productId,
     },
   });
-  console.log("dao", interested)
   return interested;
 };
 
@@ -369,7 +366,6 @@ const productUnInterested = async (userId, productId) => {
       productId: productId,
     },
   });
-  console.log("dao", datacheck)
   return datacheck
 };
 

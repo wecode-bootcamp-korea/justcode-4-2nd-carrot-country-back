@@ -36,7 +36,6 @@ const createProductImages = async (req, res, next) => {
     const userId = req.userId;
     const productId = await productService.getProductIdBycreateAt(userId);
     const images = req.files;
-    console.log("images", images);
     const filename = images.map((image) => image.filename);
     if (images === undefined) {
       const err = new Error("NO IMAGE");
@@ -196,7 +195,7 @@ const productUnInterested = async (req, res) => {
     const userId = req.userId;
     const productId = Number(req.url.split("/")[1]);
     if (!productId) {
-      const err = new Error("UNVALID URL");
+      const err = new Error("INVALID URL");
       err.statusCode = 400;
       throw err;
     }
