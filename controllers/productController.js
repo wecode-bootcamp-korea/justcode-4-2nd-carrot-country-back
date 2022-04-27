@@ -157,7 +157,8 @@ const getProductDetail = async (req, res) => {
 //매물 관심있어요 등록 API
 const productInterested = async (req, res) => {
   try {
-    const { productId, userId } = req.body;
+    const userId = req.userId;
+    const { productId } = req.body;
     await productService.productInterested(userId, Number(productId));
     return res.status(200).json({ message: "LIKED SUCCESS" });
   } catch (err) {
@@ -169,7 +170,8 @@ const productInterested = async (req, res) => {
 //매물 관심있어요 취소 API
 const productUnInterested = async (req, res) => {
   try {
-    const { productId, userId } = req.body;
+    const userId = req.userId;
+    const { productId } = req.body;
     if (!productId) {
       const err = new Error("UNVALID URL");
       err.statusCode = 400;
