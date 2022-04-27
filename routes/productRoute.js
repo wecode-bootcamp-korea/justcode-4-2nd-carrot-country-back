@@ -28,8 +28,6 @@ router.use(
   authorization.getUserDistrictInfo
 );
 
-router.get("", productController.getProductList);
-router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
 router.post("", keyError.validCreateProduct, productController.createProduct);
 router.post(
   "/images",
@@ -39,6 +37,9 @@ router.post(
   },
   productController.createProductImages
 );
+
+router.get("", productController.getProductList);
+router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
 
 router.patch("/:productId", productController.updateProduct);
 router.patch(
