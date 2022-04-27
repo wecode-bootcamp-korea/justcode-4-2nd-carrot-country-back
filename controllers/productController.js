@@ -46,6 +46,7 @@ const createProductImages = async (req, res, next) => {
     res.status(200).json({
       message: "IMAGE_UPLOAD_SUCCESS",
       imageURLs: filename,
+      productId: productId,
     });
   } catch (err) {
     console.log(err);
