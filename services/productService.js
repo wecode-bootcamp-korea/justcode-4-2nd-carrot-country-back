@@ -89,7 +89,6 @@ const productInterested = async (userId, productId) => {
 
 const productUnInterested = async (userId, productId) => {
   const dataCheck = await productDao.duplicateInterested(userId, productId);
-  console.log("체크결과",dataCheck,dataCheck.length)
   if (dataCheck.length === 0) {
     const err = new Error("ALREADY UNLIKED");
     err.statusCode = 400;

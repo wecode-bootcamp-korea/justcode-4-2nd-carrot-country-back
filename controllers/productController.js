@@ -169,7 +169,6 @@ const getProductDetail = async (req, res) => {
     const productId = req.url.split("/")[1];
     const product = await productService.getProductDetail(productId);
     await productService.updateViewCount(product.id, product.viewCount);
-
     return res.status(200).json({ product });
   } catch (err) {
     console.log(err);

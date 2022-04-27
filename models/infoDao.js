@@ -47,10 +47,10 @@ const getInfos = async (cityId, districtId) => {
   });
 };
 
-const getInfo = async (id) => {
+const getInfo = async (infoId) => {
   return await prisma.districtInfo.findUnique({
     where: {
-      id: id,
+      id: infoId,
     },
     select: {
       id: true,
@@ -170,6 +170,17 @@ const createComment = async (infoId, userId, comment) => {
   `;
 };
 
+const updateViewCount = async (infoId, curViewCount) => {
+  await prisma.districtInfo.update({
+    where: {
+      id: infoId,
+    },
+    data: {
+      viewCount: curViewCount + 1,
+    },
+  });
+};
+
 module.exports = {
   getInfos,
   getInfo,
@@ -177,4 +188,5 @@ module.exports = {
   postInfoLike,
   deleteInfoLike,
   createComment,
+  updateViewCount,
 };

@@ -20,11 +20,21 @@ const createComment = async (userId, infoId, comment)=>{
   return await infoDao.createComment(infoId, userId, comment);
 }
 
+const createInfo = async( userId, cityId, districtId, title , content ) => {
+  return await infoDao.createInfo(userId, cityId, districtId, title , content);
+}
+
+const updateViewCount = async (infoId, curViewCount) => {
+  return await infoDao.updateViewCount(infoId, curViewCount);
+};
+
 module.exports = {
   getInfos,
   getInfo,
   getSearchInfos,
   postInfoLike,
   deleteInfoLike,
-  createComment
+  createComment,
+  createInfo,
+  updateViewCount
 };

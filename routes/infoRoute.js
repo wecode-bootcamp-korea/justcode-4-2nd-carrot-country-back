@@ -25,6 +25,12 @@ router.use(
   authorization.getUserDistrictInfo
 );
 router.get("/", infoController.getInfos);
+
+// 동네정보 등록 API
+router.post("",infoController.createInfo);
+// router.delete("",infoController.deleteInfo);
+
+
 //CREATE COMMENT
 router.post(
   "/:infoId/comment",

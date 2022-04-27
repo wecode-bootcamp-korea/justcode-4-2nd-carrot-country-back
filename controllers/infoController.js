@@ -24,6 +24,7 @@ const getInfo = async (req, res, next) => {
       throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
     }
     const districtInfo = await infoService.getInfo(Number(infoId));
+    await infoService.updateViewCount(districtInfo.id, districtInfo.viewCount);
     return res.status(200).json({ message: "SUCCESS", districtInfo });
   } catch (err) {
     res.status(err.statusCode || 500).json({ message: err.message });
@@ -79,11 +80,26 @@ try{
  }
 }
 
+const createInfo = async(req, res, next) => {
+  try{
+  const userId = req.userId;
+  const cityId = req.cityId;
+  const districtId = req.districtId;
+  const { title , content } = req.body; 
+  await infoService.createInfo(userId, cityId, districtId, title , content);
+  return res.status(201).json({ message : "SUCCESS CREATE DISTRICT-INFO" }) 
+  } catch (err) {
+  console.log(err);
+  return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+}
+
 module.exports = {
   getInfos,
   getInfo,
   getSearchInfos,
   postInfoLike,
   deleteInfoLike,
-  createComment
+  createComment,
+  createInfo
 };
