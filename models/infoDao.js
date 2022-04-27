@@ -181,6 +181,38 @@ const updateViewCount = async (infoId, curViewCount) => {
   });
 };
 
+const createInfo = async (userId, cityId, districtId, title , content) => {
+  return await prisma.$queryRaw`
+  INSERT INTO districts_infos 
+  (userId, cityId, districtId, title ,content) 
+  VALUES 
+  (${userId}, ${cityId}, ${districtId}, ${title}, ${content})`;
+}
+
+//동네정보 등록하고 생성된  infoId 확인
+const getinfoIdBycreateAt = async (userId) => {
+  return await prisma.$queryRaw`
+    SELECT id FROM districts_infos WHERE userId = ${userId} ORDER BY createdAt DESC LIMIT 1`;
+};
+
+//동네정보 이미지 등록
+const createInfoImages = async (filename, infoId) => {
+  const infoIdArr = [];
+  infoIdArr.push(infoId);
+  return infoIdArr.forEach(async (infoIdArr) =>
+    filename.forEach(
+      async (filename) =>
+        await prisma.$queryRaw`
+  INSERT INTO districts_infos_images (infoId, imageUrl)
+  VALUES
+  (${infoIdArr}, ${filename});
+  `
+    )
+  );
+};
+
+
+
 module.exports = {
   getInfos,
   getInfo,
@@ -189,4 +221,7 @@ module.exports = {
   deleteInfoLike,
   createComment,
   updateViewCount,
+  createInfo,
+  getinfoIdBycreateAt,
+  createInfoImages
 };

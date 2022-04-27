@@ -94,6 +94,29 @@ const createInfo = async(req, res, next) => {
   }
 }
 
+const createInfoImages = async(req, res, next) => {
+  try{ 
+    const userId = req.userId;
+    const infoId =  await infoService.getinfoIdBycreateAt(userId)
+    const images = req.files;  
+    const filename = images.map((image) => image.filename);
+    if (images === undefined) {
+      const err = new Error("NO IMAGE");
+      err.statusCode = 400;
+      throw err;
+    }
+    await infoService.createInfoImages(filename, infoId)
+    res.status(200).json({
+      message:  "IMAGE_UPLOAD_SUCCESS",
+      imageURLs: filename,
+      infoId: infoId,
+    });
+  } catch(err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+}
+
 module.exports = {
   getInfos,
   getInfo,
@@ -101,5 +124,6 @@ module.exports = {
   postInfoLike,
   deleteInfoLike,
   createComment,
-  createInfo
+  createInfo,
+  createInfoImages
 };

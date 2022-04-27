@@ -18,11 +18,22 @@ const deleteInfoLike = async (userId, infoId) => {
 
 const createComment = async (userId, infoId, comment)=>{
   return await infoDao.createComment(infoId, userId, comment);
-}
+};
 
 const createInfo = async( userId, cityId, districtId, title , content ) => {
   return await infoDao.createInfo(userId, cityId, districtId, title , content);
-}
+};
+
+const getinfoIdBycreateAt = async (userId) => {
+  const getinfoIdBycreateAt = await infoDao.getinfoIdBycreateAt(
+    userId
+  );
+  return getinfoIdBycreateAt[0].id;
+};
+
+const createInfoImages = async (filename, infoId) => {
+  return await infoDao.createInfoImages(filename, infoId);
+};
 
 const updateViewCount = async (infoId, curViewCount) => {
   return await infoDao.updateViewCount(infoId, curViewCount);
@@ -36,5 +47,7 @@ module.exports = {
   deleteInfoLike,
   createComment,
   createInfo,
-  updateViewCount
+  updateViewCount,
+  createInfoImages,
+  getinfoIdBycreateAt
 };
