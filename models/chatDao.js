@@ -98,9 +98,33 @@ const getChats = async (roomId) => {
   });
 };
 
+const getProductByRoomId = async (roomId) => {
+  return await prisma.chatRoom.findUnique({
+    where: {
+      id: roomId,
+    },
+    select: {
+      product: {
+        select: {
+          id: true,
+          title: true,
+          price: true,
+          productImage: {
+            take: 1,
+            select: {
+              id: true,
+              imageUrl: true,
+            },
+          },
+        },
+      },
+    },
+  });
+};
 module.exports = {
   createRoom,
   createChat,
   getRooms,
   getChats,
+  getProductByRoomId,
 };
