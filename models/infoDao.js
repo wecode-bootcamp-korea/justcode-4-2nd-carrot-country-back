@@ -127,6 +127,11 @@ const getSearchInfos = async (keyword) => {
           id: true,
         },
       },
+      comment : {
+        select : {
+          id : true,
+        },
+      }
     },
   });
 };

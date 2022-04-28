@@ -380,7 +380,7 @@ const updateViewCount = async (productId, curViewCount) => {
 };
 
 const getSearchProduct = async (keyword) => {
-  await prisma.product.findMany({
+  return await prisma.product.findMany({
     where: {
       title: {
         contains: keyword,

@@ -44,6 +44,10 @@ const deleteInfo = async (infoId) => {
   return await infoDao.deleteInfo(infoId);
 }
 
+const deleteComment = async () => {
+  return await infoDao.deleteComment();
+}
+
 const updateViewCount = async (infoId, curViewCount) => {
   return await infoDao.updateViewCount(infoId, curViewCount);
 };
