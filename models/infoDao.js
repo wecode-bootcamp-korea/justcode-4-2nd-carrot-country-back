@@ -43,6 +43,11 @@ const getInfos = async (cityId, districtId) => {
           id: true,
         },
       },
+      comment: {
+        select: {
+          id: true,
+        },
+      },
     },
   });
 };
