@@ -13,11 +13,27 @@ const createRoom = async (props) => {
 
 const createChat = async (props) => {
   const { userId, roomId, text } = props;
-  return await prisma.chat.create({
+  const newChat = await prisma.chat.create({
     data: {
       roomId,
       userId,
       text,
+    },
+  });
+  return await prisma.chat.findUnique({
+    where: {
+      id: newChat.id,
+    },
+    select: {
+      id: true,
+      text: true,
+      createdAt: true,
+      user: {
+        select: {
+          id: true,
+          nickname: true,
+        },
+      },
     },
   });
 };
