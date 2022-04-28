@@ -90,10 +90,10 @@ const getSearchInfos = async (keyword) => {
   return await prisma.districtInfo.findMany({
     where: {
       title: {
-        search: keyword,
+        contains: keyword,
       },
       content: {
-        search: keyword,
+        contains: keyword,
       },
     },
     select: {
@@ -158,23 +158,23 @@ const getinfoComments = async (infoId) => {
           },
         },
       },
-      commentLiked :{
-        select : {
-          id : true,
-        }
-      }  
+      commentLiked: {
+        select: {
+          id: true,
+        },
+      },
     },
-    })
-  }
+  });
+};
 
-  const deleteInfo = async ( infoId ) =>{
-    await prisma.$queryRaw`
+const deleteInfo = async (infoId) => {
+  await prisma.$queryRaw`
     DELETE FROM districts_infos_images WHERE infoId = ${infoId};
     `;
-    await prisma.$queryRaw`
+  await prisma.$queryRaw`
     DELETE FROM districts_infos WHERE id = ${infoId}
-    `
-  }
+    `;
+};
 
 const postInfoLike = async (userId, infoId) => {
   return await prisma.$queryRaw`
@@ -270,5 +270,5 @@ module.exports = {
   getinfoIdBycreateAt,
   createInfoImages,
   getinfoComments,
-  deleteInfo
+  deleteInfo,
 };
