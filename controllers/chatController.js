@@ -1,5 +1,4 @@
 const chatService = require("../services/chatService");
-
 const errorGenerator = require("../utils/errorGenerator");
 
 const getRooms = async (req, res, next) => {

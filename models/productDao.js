@@ -380,11 +380,10 @@ const updateViewCount = async (productId, curViewCount) => {
 };
 
 const getSearchProduct = async (keyword) => {
-  console.log("keyword", keyword, typeof keyword);
-  const aaa = await prisma.product.findMany({
+  await prisma.product.findMany({
     where: {
       title: {
-        search: keyword,
+        contains: keyword,
       },
     },
     select: {
@@ -410,15 +409,13 @@ const getSearchProduct = async (keyword) => {
           imageUrl: true,
         },
       },
-      // productInterested : {
-      //   select: {
-      //     id: true,
-      //   },
-      // },
+      productIntrested: {
+        select: {
+          id: true,
+        },
+      },
     },
   });
-  console.log("aaa", aaa);
-  return aaa;
 };
 
 module.exports = {

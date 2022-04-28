@@ -22,6 +22,9 @@ const getArea = async () => {
 
 const getCities = async () => {
   return await prisma.city.findMany({
+    orderBy: {
+      id: "asc",
+    },
     select: {
       id: true,
       cityName: true,
@@ -33,6 +36,9 @@ const getDistricts = async (id) => {
   return await prisma.district.findMany({
     where: {
       cityId: id,
+    },
+    orderBy: {
+      id: "asc",
     },
     select: {
       id: true,
