@@ -40,6 +40,7 @@ const handleSocket = (io) => {
         }
         const chat = await chatService.createChat({ userId, roomId, text });
         socket.to(roomId).emit("new_text", chat);
+        socket.broadcast.emit("new_alarm", roomId, chat);
         callback(chat);
       } catch (err) {
         console.log("new_text error : ", err);
