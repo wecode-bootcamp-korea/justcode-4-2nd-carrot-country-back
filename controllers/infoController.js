@@ -123,9 +123,9 @@ const deleteInfo = async (req, res, next) => {
 
 const deleteComment = async (req, res, next) => {
   try {
-    const commentId = req.url.split("/")[1];
-    console.log("commentId", commentId);
-    return await infoService.deleteComment(commentId);
+    const commentId = req.url.split("/")[2];
+    await infoService.deleteComment(Number(commentId));
+    return res.status(201).json({ message: "SUCCESS DELETE COMMENT" });
   } catch (err) {
     console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });

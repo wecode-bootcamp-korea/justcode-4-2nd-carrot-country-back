@@ -44,8 +44,8 @@ const deleteInfo = async (infoId) => {
   return await infoDao.deleteInfo(infoId);
 }
 
-const deleteComment = async () => {
-  return await infoDao.deleteComment();
+const deleteComment = async (commentId) => {
+  return await infoDao.deleteComment(commentId);
 }
 
 const updateViewCount = async (infoId, curViewCount) => {
@@ -64,5 +64,6 @@ module.exports = {
   createInfoImages,
   getinfoIdBycreateAt,
   getinfoComments,
-  deleteInfo
+  deleteInfo,
+  deleteComment
 };

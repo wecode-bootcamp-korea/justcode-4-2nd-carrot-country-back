@@ -264,6 +264,13 @@ const createInfoImages = async (filename, infoId) => {
   );
 };
 
+const deleteComment = async(commentId) => {
+  await prisma.$queryRaw`
+    DELETE FROM comments WHERE id = ${commentId}
+    `;
+}
+ 
+
 module.exports = {
   getInfos,
   getInfo,
@@ -277,4 +284,5 @@ module.exports = {
   createInfoImages,
   getinfoComments,
   deleteInfo,
+  deleteComment
 };
