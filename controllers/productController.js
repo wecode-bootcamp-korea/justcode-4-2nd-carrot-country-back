@@ -211,6 +211,7 @@ const productUnInterested = async (req, res) => {
 const getSearchProduct = async( req, res, next ) => {
 try{ 
   const { keyword } = req.query;
+  console.log("keyword",keyword)
   if(!keyword) {
      const err = new Error("KEY_ERROR")
      err.statusCode = 400;

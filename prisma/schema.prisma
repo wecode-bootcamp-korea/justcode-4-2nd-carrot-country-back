@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -52,7 +51,6 @@ model Product {
   productIntrested ProductInterested[]
   chatRoom         ChatRoom[]
 
-  @@fulltext([title])
   @@map("products")
 }
 
@@ -61,6 +59,7 @@ model Category {
   categoryName String    @unique @db.VarChar(100)
   createdAt    DateTime? @default(now())
   product      Product[]
+
   @@map("categories")
 }
 
@@ -128,7 +127,6 @@ model DistrictInfo {
   districtInfoLiked DistrictInfoLiked[]
   districtInfoImage DistrictInfoImage[]
 
-  @@fulltext([content, title])
   @@map("districts_infos")
 }
 

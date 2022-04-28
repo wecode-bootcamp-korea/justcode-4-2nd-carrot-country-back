@@ -90,10 +90,7 @@ const getSearchInfos = async (keyword) => {
   return await prisma.districtInfo.findMany({
     where: {
       title: {
-        search: keyword,
-      },
-      content: {
-        search: keyword,
+        contains: keyword,
       },
     },
     select: {
@@ -131,7 +128,6 @@ const getSearchInfos = async (keyword) => {
 
 // 댓글 가져오기
 const getinfoComments = async (infoId) => {
-  console.log("infoDao 프리즈마 전 infoId", infoId);
   return await prisma.comment.findMany({
     where: {
       infoId: infoId,
@@ -158,23 +154,23 @@ const getinfoComments = async (infoId) => {
           },
         },
       },
-      commentLiked :{
-        select : {
-          id : true,
-        }
-      }  
+      commentLiked: {
+        select: {
+          id: true,
+        },
+      },
     },
-    })
-  }
+  });
+};
 
-  const deleteInfo = async ( infoId ) =>{
-    await prisma.$queryRaw`
+const deleteInfo = async (infoId) => {
+  await prisma.$queryRaw`
     DELETE FROM districts_infos_images WHERE infoId = ${infoId};
     `;
-    await prisma.$queryRaw`
+  await prisma.$queryRaw`
     DELETE FROM districts_infos WHERE id = ${infoId}
-    `
-  }
+    `;
+};
 
 const postInfoLike = async (userId, infoId) => {
   return await prisma.$queryRaw`
@@ -270,5 +266,5 @@ module.exports = {
   getinfoIdBycreateAt,
   createInfoImages,
   getinfoComments,
-  deleteInfo
+  deleteInfo,
 };
