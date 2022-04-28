@@ -92,9 +92,6 @@ const getSearchInfos = async (keyword) => {
       title: {
         contains: keyword,
       },
-      content: {
-        contains: keyword,
-      },
     },
     select: {
       id: true,
@@ -131,7 +128,6 @@ const getSearchInfos = async (keyword) => {
 
 // 댓글 가져오기
 const getinfoComments = async (infoId) => {
-  console.log("infoDao 프리즈마 전 infoId", infoId);
   return await prisma.comment.findMany({
     where: {
       infoId: infoId,
