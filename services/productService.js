@@ -101,6 +101,11 @@ const updateViewCount = async (productId, curViewCount) => {
   return await productDao.updateViewCount(productId, curViewCount);
 };
 
+const getSearchProduct = async (keyword) => {
+  return await productDao.getSearchProduct(keyword);
+}
+
+
 module.exports = {
   createProduct,
   getProductIdBycreateAt,
@@ -115,5 +120,6 @@ module.exports = {
   updateProductImages,
   updateViewCount,
   getBestProductsBycity,
-  getBestProductsBycityNDistrict
+  getBestProductsBycityNDistrict,
+  getSearchProduct
 };

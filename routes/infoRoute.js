@@ -18,7 +18,6 @@ const upload = multer({
   storage: storage,
 });
 
-
 // GET
 router.get("/:infoId", infoController.getInfo);
 router.get("/search/info", infoController.getSearchInfos);
@@ -46,12 +45,11 @@ router.post("",infoController.createInfo);
 router.post("/images", upload.array("images"),function(req, res, next) {
   next();
 }, infoController.createInfoImages)
-// router.delete("",infoController.deleteInfo);
+router.delete("/:infoId",infoController.deleteInfo);
 
 //댓글정보 가져오기
 router.get("/:infoId/comment",
 infoController.getinfoComments)
-
 
 //댓글 등록하기
 router.post(

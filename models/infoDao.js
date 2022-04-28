@@ -129,7 +129,7 @@ const getSearchInfos = async (keyword) => {
   });
 };
 
-// 짜고는 있는데 이미 노션에 짜두 신 분 찾아야 함
+// 댓글 가져오기
 const getinfoComments = async (infoId) => {
   console.log("infoDao 프리즈마 전 infoId", infoId);
   return await prisma.comment.findMany({
@@ -165,6 +165,15 @@ const getinfoComments = async (infoId) => {
       }  
     },
     })
+  }
+
+  const deleteInfo = async ( infoId ) =>{
+    await prisma.$queryRaw`
+    DELETE FROM districts_infos_images WHERE infoId = ${infoId};
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM districts_infos WHERE id = ${infoId}
+    `
   }
 
 const postInfoLike = async (userId, infoId) => {
@@ -261,4 +270,5 @@ module.exports = {
   getinfoIdBycreateAt,
   createInfoImages,
   getinfoComments,
+  deleteInfo
 };

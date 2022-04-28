@@ -40,6 +40,10 @@ const createInfoImages = async (filename, infoId) => {
   return await infoDao.createInfoImages(filename, infoId);
 };
 
+const deleteInfo = async (infoId) => {
+  return await infoDao.deleteInfo(infoId);
+}
+
 const updateViewCount = async (infoId, curViewCount) => {
   return await infoDao.updateViewCount(infoId, curViewCount);
 };
@@ -55,5 +59,6 @@ module.exports = {
   updateViewCount,
   createInfoImages,
   getinfoIdBycreateAt,
-  getinfoComments
+  getinfoComments,
+  deleteInfo
 };

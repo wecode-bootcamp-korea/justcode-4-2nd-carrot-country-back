@@ -22,6 +22,7 @@ const upload = multer({
 //로그인 안해도 접근가능
 router.get("/best", productController.getBestProducts);
 router.get("/:productId", productController.getProductDetail);
+router.get("/search/product", productController.getSearchProduct);
 
 //지역미들웨어는 없어도 작동가능
 router.use(authorization.getUserIdByVerifyToken);

@@ -105,6 +105,17 @@ const createInfo = async(req, res, next) => {
   }
 }
 
+const deleteInfo = async(req, res, next) => {
+  try{
+    const infoId = req.url.split("/")[1]
+    await infoService.deleteInfo(infoId);
+    return res.status(201).json({ message: "SUCCESS DELETE DISTRICT-INFO" });
+  } catch (err){
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+}
+
 const createInfoImages = async(req, res, next) => {
   try{ 
     const userId = req.userId;
@@ -137,5 +148,6 @@ module.exports = {
   createComment,
   createInfo,
   createInfoImages,
-  getinfoComments
+  getinfoComments,
+  deleteInfo
 };
