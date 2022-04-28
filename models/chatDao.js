@@ -71,6 +71,7 @@ const getRooms = async (userId) => {
         select: {
           id: true,
           text: true,
+          createdAt: true,
         },
       },
       createdAt: true,

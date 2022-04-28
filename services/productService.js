@@ -59,19 +59,17 @@ const getProductList = async (districtId, cityId) => {
   return await productDao.getProductList(districtId, cityId);
 };
 
-
 const getBestProducts = async () => {
   return await productDao.getBestProducts();
 };
 
+const getBestProductsBycity = async (cityId) => {
+  return await productDao.getBestProductsBycity(cityId);
+};
 
-const getBestProductsBycity = async(cityId) => {
-  return await productDao.getBestProductsBycity(cityId)
-}
-
-const getBestProductsBycityNDistrict = async(cityId, districtId) => {
-  return await productDao.getBestProductsBycityNDistrict(cityId, districtId)
-}
+const getBestProductsBycityNDistrict = async (cityId, districtId) => {
+  return await productDao.getBestProductsBycityNDistrict(cityId, districtId);
+};
 
 const getProductDetail = async (productId) => {
   return await productDao.getProductDetail(productId);

@@ -61,7 +61,6 @@ model Category {
   categoryName String    @unique @db.VarChar(100)
   createdAt    DateTime? @default(now())
   product      Product[]
-
   @@map("categories")
 }
 
