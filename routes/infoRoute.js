@@ -48,8 +48,12 @@ router.post("/images", upload.array("images"),function(req, res, next) {
 }, infoController.createInfoImages)
 // router.delete("",infoController.deleteInfo);
 
+//댓글정보 가져오기
+router.get("/:infoId/comment",
+infoController.getinfoComments)
 
-//CREATE COMMENT
+
+//댓글 등록하기
 router.post(
   "/:infoId/comment",
   authorization.getUserIdByVerifyToken,

@@ -9,6 +9,11 @@ const getInfo = async (id) => {
 const getSearchInfos = async (keyword) => {
   return await infoDao.getSearchInfos(keyword);
 };
+
+const getinfoComments = async (infoId) =>{
+  return await infoDao.getinfoComments(infoId)
+}
+
 const postInfoLike = async (userId, infoId) => {
   return await infoDao.postInfoLike(userId, infoId);
 };
@@ -49,5 +54,6 @@ module.exports = {
   createInfo,
   updateViewCount,
   createInfoImages,
-  getinfoIdBycreateAt
+  getinfoIdBycreateAt,
+  getinfoComments
 };

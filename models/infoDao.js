@@ -129,6 +129,44 @@ const getSearchInfos = async (keyword) => {
   });
 };
 
+// 짜고는 있는데 이미 노션에 짜두 신 분 찾아야 함
+const getinfoComments = async (infoId) => {
+  console.log("infoDao 프리즈마 전 infoId", infoId);
+  return await prisma.comment.findMany({
+    where: {
+      infoId: infoId,
+    },
+    select: {
+      id: true,
+      comment: true,
+      createdAt: true,
+      user: {
+        select: {
+          id: true,
+          nickname: true,
+          city: {
+            select: {
+              id: true,
+              cityName: true,
+            },
+          },
+          district: {
+            select: {
+              id: true,
+              districtName: true,
+            },
+          },
+        },
+      },
+      commentLiked :{
+        select : {
+          id : true,
+        }
+      }  
+    },
+    })
+  }
+
 const postInfoLike = async (userId, infoId) => {
   return await prisma.$queryRaw`
   INSERT INTO districts_infos_liked(userId, infoId) VALUES (${userId}, ${infoId});
@@ -181,13 +219,13 @@ const updateViewCount = async (infoId, curViewCount) => {
   });
 };
 
-const createInfo = async (userId, cityId, districtId, title , content) => {
+const createInfo = async (userId, cityId, districtId, title, content) => {
   return await prisma.$queryRaw`
   INSERT INTO districts_infos 
   (userId, cityId, districtId, title ,content) 
   VALUES 
   (${userId}, ${cityId}, ${districtId}, ${title}, ${content})`;
-}
+};
 
 //동네정보 등록하고 생성된  infoId 확인
 const getinfoIdBycreateAt = async (userId) => {
@@ -211,8 +249,6 @@ const createInfoImages = async (filename, infoId) => {
   );
 };
 
-
-
 module.exports = {
   getInfos,
   getInfo,
@@ -223,5 +259,6 @@ module.exports = {
   updateViewCount,
   createInfo,
   getinfoIdBycreateAt,
-  createInfoImages
+  createInfoImages,
+  getinfoComments,
 };

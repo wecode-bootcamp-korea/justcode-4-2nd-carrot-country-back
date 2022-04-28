@@ -44,6 +44,17 @@ const getSearchInfos = async (req, res, next) => {
   }
 };
 
+const getinfoComments = async(req, res, next) => {
+  try{
+    const infoId = req.url.split("/")[1]
+    const infoComments = await infoService.getinfoComments(Number(infoId));
+    return res.status(200).json({ message: "SUCCESS", infoComments });
+  } catch(err) {
+    console.log(err);
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+}
+
 const postInfoLike = async (req, res, next) => {
   try {
     const userId = req.userId;
@@ -125,5 +136,6 @@ module.exports = {
   deleteInfoLike,
   createComment,
   createInfo,
-  createInfoImages
+  createInfoImages,
+  getinfoComments
 };
