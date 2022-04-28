@@ -85,7 +85,7 @@ DELETE FROM products_images WHERE productId = ${productId};
   await prisma.$queryRaw`
 DELETE FROM products WHERE id = ${productId};
 `;
-}
+};
 
 //매물 리스트 페이지 정보 불러오기 API (유저의 지역에 해당되는 매물)
 const getProductList = async (districtId, cityId) => {
@@ -359,7 +359,7 @@ const productInterested = async (userId, productId) => {
 };
 
 const productUnInterested = async (userId, productId) => {
-  const datacheck = await prisma.productInterested.delete({
+  const datacheck = await prisma.productInterested.deleteMany({
     where: {
       userId: userId,
       productId: productId,
@@ -379,18 +379,18 @@ const updateViewCount = async (productId, curViewCount) => {
   });
 };
 
-const getSearchProduct = async(keyword) => {
-  console.log("keyword",keyword, typeof(keyword))
+const getSearchProduct = async (keyword) => {
+  console.log("keyword", keyword, typeof keyword);
   const aaa = await prisma.product.findMany({
     where: {
       title: {
         search: keyword,
       },
-  },
-    select : {
-      id : true,
-      title :true,
-      price : true,
+    },
+    select: {
+      id: true,
+      title: true,
+      price: true,
       city: {
         select: {
           id: true,
@@ -415,11 +415,11 @@ const getSearchProduct = async(keyword) => {
       //     id: true,
       //   },
       // },
-    }
-})
-console.log("aaa",aaa)
-return aaa
-}
+    },
+  });
+  console.log("aaa", aaa);
+  return aaa;
+};
 
 module.exports = {
   createProduct,
@@ -437,5 +437,5 @@ module.exports = {
   updateViewCount,
   getBestProductsBycity,
   getBestProductsBycityNDistrict,
-  getSearchProduct
+  getSearchProduct,
 };
