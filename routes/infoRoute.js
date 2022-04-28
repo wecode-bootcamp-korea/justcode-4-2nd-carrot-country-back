@@ -51,6 +51,10 @@ router.delete("/:infoId",infoController.deleteInfo);
 router.get("/:infoId/comment",
 infoController.getinfoComments)
 
+//댓글 삭제하기 API 
+router.delete("/comment/:commentId", 
+infoController.deleteComment)
+
 //댓글 등록하기
 router.post(
   "/:infoId/comment",

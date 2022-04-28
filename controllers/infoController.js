@@ -38,22 +38,27 @@ const getSearchInfos = async (req, res, next) => {
       throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
     }
     const districtInfos = await infoService.getSearchInfos(keyword);
+    if (districtInfos.length === 0) {
+      const err = new Error("NO SEARCH RESULTS");
+      err.statusCode = 400;
+      throw err;
+    }
     return res.status(200).json({ message: "SUCCESS", districtInfos });
   } catch (err) {
     res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
 
-const getinfoComments = async(req, res, next) => {
-  try{
-    const infoId = req.url.split("/")[1]
+const getinfoComments = async (req, res, next) => {
+  try {
+    const infoId = req.url.split("/")[1];
     const infoComments = await infoService.getinfoComments(Number(infoId));
     return res.status(200).json({ message: "SUCCESS", infoComments });
-  } catch(err) {
+  } catch (err) {
     console.log(err);
     res.status(err.statusCode || 500).json({ message: err.message });
   }
-}
+};
 
 const postInfoLike = async (req, res, next) => {
   try {
@@ -70,7 +75,7 @@ const postInfoLike = async (req, res, next) => {
 const deleteInfoLike = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const { infoId } =req.params;
+    const { infoId } = req.params;
     await infoService.deleteInfoLike(userId, Number(infoId));
     return res.status(200).json({ message: "SUCCESS" });
   } catch (err) {
@@ -78,66 +83,77 @@ const deleteInfoLike = async (req, res, next) => {
   }
 };
 
-const createComment = async (req, res, next) =>{
-try{
-  const userId = req.userId;
-  const { infoId } = req.params;
-  const { comment } = req.body
-  await infoService.createComment(userId, Number(infoId), comment)
-  return res.status(200).json({ message: "SUCCESS" });
- } catch(err){
-   console.log(err);
-  res.status(err.statusCode || 500).json({ message: err.message });
- }
-}
-
-const createInfo = async(req, res, next) => {
-  try{
-  const userId = req.userId;
-  const cityId = req.cityId;
-  const districtId = req.districtId;
-  const { title , content } = req.body; 
-  await infoService.createInfo(userId, cityId, districtId, title , content);
-  return res.status(201).json({ message : "SUCCESS CREATE DISTRICT-INFO" }) 
+const createComment = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const { infoId } = req.params;
+    const { comment } = req.body;
+    await infoService.createComment(userId, Number(infoId), comment);
+    return res.status(200).json({ message: "SUCCESS" });
   } catch (err) {
-  console.log(err);
-  return res.status(err.statusCode || 500).json({ message: err.message });
+    console.log(err);
+    res.status(err.statusCode || 500).json({ message: err.message });
   }
-}
+};
 
-const deleteInfo = async(req, res, next) => {
-  try{
-    const infoId = req.url.split("/")[1]
-    await infoService.deleteInfo(infoId);
-    return res.status(201).json({ message: "SUCCESS DELETE DISTRICT-INFO" });
-  } catch (err){
+const createInfo = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const cityId = req.cityId;
+    const districtId = req.districtId;
+    const { title, content } = req.body;
+    await infoService.createInfo(userId, cityId, districtId, title, content);
+    return res.status(201).json({ message: "SUCCESS CREATE DISTRICT-INFO" });
+  } catch (err) {
     console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
-}
+};
 
-const createInfoImages = async(req, res, next) => {
-  try{ 
+const deleteInfo = async (req, res, next) => {
+  try {
+    const infoId = req.url.split("/")[1];
+    await infoService.deleteInfo(infoId);
+    return res.status(201).json({ message: "SUCCESS DELETE DISTRICT-INFO" });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+const deleteComment = async (req, res, next) => {
+  try {
+    const commentId = req.url.split("/")[2];
+    await infoService.deleteComment(Number(commentId));
+    return res.status(201).json({ message: "SUCCESS DELETE COMMENT" });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+const createInfoImages = async (req, res, next) => {
+  try {
     const userId = req.userId;
-    const infoId =  await infoService.getinfoIdBycreateAt(userId)
-    const images = req.files;  
+    const infoId = await infoService.getinfoIdBycreateAt(userId);
+    const images = req.files;
     const filename = images.map((image) => image.filename);
     if (images === undefined) {
       const err = new Error("NO IMAGE");
       err.statusCode = 400;
       throw err;
     }
-    await infoService.createInfoImages(filename, infoId)
+    await infoService.createInfoImages(filename, infoId);
     res.status(200).json({
-      message:  "IMAGE_UPLOAD_SUCCESS",
+      message: "IMAGE_UPLOAD_SUCCESS",
       imageURLs: filename,
       infoId: infoId,
     });
-  } catch(err) {
+  } catch (err) {
     console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
-}
+};
 
 module.exports = {
   getInfos,
@@ -149,5 +165,6 @@ module.exports = {
   createInfo,
   createInfoImages,
   getinfoComments,
-  deleteInfo
+  deleteInfo,
+  deleteComment,
 };

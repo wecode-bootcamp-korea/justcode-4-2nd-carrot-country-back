@@ -208,22 +208,26 @@ const productUnInterested = async (req, res) => {
 };
 
 // 매물 검색정보 가져오기 API (타이틀 기준 검색)
-const getSearchProduct = async( req, res, next ) => {
-try{ 
-  const { keyword } = req.query;
-  console.log("keyword",keyword)
-  if(!keyword) {
-     const err = new Error("KEY_ERROR")
-     err.statusCode = 400;
-     throw err;
+const getSearchProduct = async (req, res, next) => {
+  try {
+    const { keyword } = req.query;
+    if (!keyword) {
+      const err = new Error("KEY_ERROR");
+      err.statusCode = 400;
+      throw err;
+    }
+    const searchProducts = await productService.getSearchProduct(keyword);
+    if (searchProducts.length === 0) {
+      const err = new Error("NO SEARCH RESULTS");
+      err.statusCode = 400;
+      throw err;
+    }
+    return res.status(200).json({ message: "SUCCESS", searchProducts });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
   }
-  const searchProducts = await productService.getSearchProduct(keyword);
-  return res.status(200).json({ message: "SUCCESS", searchProducts });
-} catch (err) {
-  console.log(err);
-  return res.status(err.statusCode || 500).json({ message: err.message });
-}
-}
+};
 
 module.exports = {
   createProduct,
@@ -236,5 +240,5 @@ module.exports = {
   productInterested,
   productUnInterested,
   updateProductImages,
-  getSearchProduct
+  getSearchProduct,
 };

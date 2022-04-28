@@ -14,7 +14,7 @@ const getUserIdByVerifyToken = async (req, res, next) => {
       }
     });
   } else {
-    res.status(403).json({ message: "token is not provided" });
+    res.status(403).json({ message: "token or API method check" });
   }
 };
 
