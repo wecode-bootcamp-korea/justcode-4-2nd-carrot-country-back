@@ -359,7 +359,7 @@ const productInterested = async (userId, productId) => {
 };
 
 const productUnInterested = async (userId, productId) => {
-  const datacheck = await prisma.productInterested.delete({
+  const datacheck = await prisma.productInterested.deleteMany({
     where: {
       userId: userId,
       productId: productId,
@@ -380,8 +380,7 @@ const updateViewCount = async (productId, curViewCount) => {
 };
 
 const getSearchProduct = async (keyword) => {
-  console.log("keyword", keyword, typeof keyword);
-  const aaa = await prisma.product.findMany({
+  await prisma.product.findMany({
     where: {
       title: {
         contains: keyword,
@@ -417,8 +416,6 @@ const getSearchProduct = async (keyword) => {
       },
     },
   });
-  console.log("aaa", aaa);
-  return aaa;
 };
 
 module.exports = {

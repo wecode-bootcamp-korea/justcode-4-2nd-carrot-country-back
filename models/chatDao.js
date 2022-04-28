@@ -105,6 +105,12 @@ const getProductByRoomId = async (roomId) => {
       id: roomId,
     },
     select: {
+      buyer: {
+        select: {
+          id: true,
+          nickname: true,
+        },
+      },
       product: {
         select: {
           id: true,
@@ -115,6 +121,12 @@ const getProductByRoomId = async (roomId) => {
             select: {
               id: true,
               imageUrl: true,
+            },
+          },
+          user: {
+            select: {
+              id: true,
+              nickname: true,
             },
           },
         },
