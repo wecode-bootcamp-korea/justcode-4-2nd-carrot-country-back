@@ -187,8 +187,8 @@ const getBestProducts = async () => {
 
 const getBestProductsBycity = async (cityId) => {
   return await prisma.product.findMany({
-    where : {
-      cityId : cityId,
+    where: {
+      cityId: cityId,
     },
     orderBy: {
       updatedAt: "desc",
@@ -234,9 +234,9 @@ const getBestProductsBycity = async (cityId) => {
 
 const getBestProductsBycityNDistrict = async (cityId, districtId) => {
   return await prisma.product.findMany({
-    where : {
-      cityId : cityId,
-      districtId : districtId
+    where: {
+      cityId: cityId,
+      districtId: districtId,
     },
     orderBy: {
       updatedAt: "desc",
@@ -346,7 +346,7 @@ const duplicateInterested = async (userId, productId) => {
   const data = await prisma.$queryRaw`
   SELECT id from products_interested where userId = ${userId} AND productId =${productId}
 `;
-return data
+  return data;
 };
 
 const productInterested = async (userId, productId) => {
@@ -360,13 +360,13 @@ const productInterested = async (userId, productId) => {
 };
 
 const productUnInterested = async (userId, productId) => {
-  const datacheck = await prisma.productInterested.deleteMany({
+  const datacheck = await prisma.productInterested.delete({
     where: {
       userId: userId,
       productId: productId,
     },
   });
-  return datacheck
+  return datacheck;
 };
 
 const updateViewCount = async (productId, curViewCount) => {
@@ -395,5 +395,5 @@ module.exports = {
   updateProductImages,
   updateViewCount,
   getBestProductsBycity,
-  getBestProductsBycityNDistrict
+  getBestProductsBycityNDistrict,
 };
