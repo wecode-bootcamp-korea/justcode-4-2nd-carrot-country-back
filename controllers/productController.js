@@ -73,6 +73,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
+//동네매물 이미지 등록 API
 const updateProductImages = async (req, res, next) => {
   try {
     const productId = Number(req.url.split("/")[1]);
@@ -94,7 +95,7 @@ const updateProductImages = async (req, res, next) => {
   }
 };
 
-//(예비) 매물 삭제
+//( 매물 삭제 API
 const deleteProduct = async (req, res) => {
   try {
     const { productId } = req.body;
@@ -169,7 +170,6 @@ const getProductDetail = async (req, res) => {
     const productId = req.url.split("/")[1];
     const product = await productService.getProductDetail(productId);
     await productService.updateViewCount(product.id, product.viewCount);
-
     return res.status(200).json({ product });
   } catch (err) {
     console.log(err);
@@ -207,6 +207,23 @@ const productUnInterested = async (req, res) => {
   }
 };
 
+// 매물 검색정보 가져오기 API (타이틀 기준 검색)
+const getSearchProduct = async( req, res, next ) => {
+try{ 
+  const { keyword } = req.query;
+  if(!keyword) {
+     const err = new Error("KEY_ERROR")
+     err.statusCode = 400;
+     throw err;
+  }
+  const searchProducts = await productService.getSearchProduct(keyword);
+  return res.status(200).json({ message: "SUCCESS", searchProducts });
+} catch (err) {
+  console.log(err);
+  return res.status(err.statusCode || 500).json({ message: err.message });
+}
+}
+
 module.exports = {
   createProduct,
   updateProduct,
@@ -218,4 +235,5 @@ module.exports = {
   productInterested,
   productUnInterested,
   updateProductImages,
+  getSearchProduct
 };
