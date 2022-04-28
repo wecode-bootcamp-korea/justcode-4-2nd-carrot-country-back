@@ -24,6 +24,7 @@ const getInfo = async (req, res, next) => {
       throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
     }
     const districtInfo = await infoService.getInfo(Number(infoId));
+    await infoService.updateViewCount(districtInfo.id, districtInfo.viewCount);
     return res.status(200).json({ message: "SUCCESS", districtInfo });
   } catch (err) {
     res.status(err.statusCode || 500).json({ message: err.message });
@@ -42,6 +43,17 @@ const getSearchInfos = async (req, res, next) => {
     res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
+
+const getinfoComments = async(req, res, next) => {
+  try{
+    const infoId = req.url.split("/")[1]
+    const infoComments = await infoService.getinfoComments(Number(infoId));
+    return res.status(200).json({ message: "SUCCESS", infoComments });
+  } catch(err) {
+    console.log(err);
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+}
 
 const postInfoLike = async (req, res, next) => {
   try {
@@ -79,11 +91,63 @@ try{
  }
 }
 
+const createInfo = async(req, res, next) => {
+  try{
+  const userId = req.userId;
+  const cityId = req.cityId;
+  const districtId = req.districtId;
+  const { title , content } = req.body; 
+  await infoService.createInfo(userId, cityId, districtId, title , content);
+  return res.status(201).json({ message : "SUCCESS CREATE DISTRICT-INFO" }) 
+  } catch (err) {
+  console.log(err);
+  return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+}
+
+const deleteInfo = async(req, res, next) => {
+  try{
+    const infoId = req.url.split("/")[1]
+    await infoService.deleteInfo(infoId);
+    return res.status(201).json({ message: "SUCCESS DELETE DISTRICT-INFO" });
+  } catch (err){
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+}
+
+const createInfoImages = async(req, res, next) => {
+  try{ 
+    const userId = req.userId;
+    const infoId =  await infoService.getinfoIdBycreateAt(userId)
+    const images = req.files;  
+    const filename = images.map((image) => image.filename);
+    if (images === undefined) {
+      const err = new Error("NO IMAGE");
+      err.statusCode = 400;
+      throw err;
+    }
+    await infoService.createInfoImages(filename, infoId)
+    res.status(200).json({
+      message:  "IMAGE_UPLOAD_SUCCESS",
+      imageURLs: filename,
+      infoId: infoId,
+    });
+  } catch(err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+}
+
 module.exports = {
   getInfos,
   getInfo,
   getSearchInfos,
   postInfoLike,
   deleteInfoLike,
-  createComment
+  createComment,
+  createInfo,
+  createInfoImages,
+  getinfoComments,
+  deleteInfo
 };

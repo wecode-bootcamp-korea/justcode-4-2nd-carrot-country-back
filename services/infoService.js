@@ -9,6 +9,11 @@ const getInfo = async (id) => {
 const getSearchInfos = async (keyword) => {
   return await infoDao.getSearchInfos(keyword);
 };
+
+const getinfoComments = async (infoId) =>{
+  return await infoDao.getinfoComments(infoId)
+}
+
 const postInfoLike = async (userId, infoId) => {
   return await infoDao.postInfoLike(userId, infoId);
 };
@@ -18,7 +23,30 @@ const deleteInfoLike = async (userId, infoId) => {
 
 const createComment = async (userId, infoId, comment)=>{
   return await infoDao.createComment(infoId, userId, comment);
+};
+
+const createInfo = async( userId, cityId, districtId, title , content ) => {
+  return await infoDao.createInfo(userId, cityId, districtId, title , content);
+};
+
+const getinfoIdBycreateAt = async (userId) => {
+  const getinfoIdBycreateAt = await infoDao.getinfoIdBycreateAt(
+    userId
+  );
+  return getinfoIdBycreateAt[0].id;
+};
+
+const createInfoImages = async (filename, infoId) => {
+  return await infoDao.createInfoImages(filename, infoId);
+};
+
+const deleteInfo = async (infoId) => {
+  return await infoDao.deleteInfo(infoId);
 }
+
+const updateViewCount = async (infoId, curViewCount) => {
+  return await infoDao.updateViewCount(infoId, curViewCount);
+};
 
 module.exports = {
   getInfos,
@@ -26,5 +54,11 @@ module.exports = {
   getSearchInfos,
   postInfoLike,
   deleteInfoLike,
-  createComment
+  createComment,
+  createInfo,
+  updateViewCount,
+  createInfoImages,
+  getinfoIdBycreateAt,
+  getinfoComments,
+  deleteInfo
 };
