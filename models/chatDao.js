@@ -150,10 +150,22 @@ const getProductByRoomId = async (roomId) => {
     },
   });
 };
+
+const duplicationRoomCheck = async ({ userId, productId }) => {
+  return await prisma.chatRoom.findMany({
+    where: {
+      AND: [{ buyerId: userId }, { productId: productId }],
+    },
+    select: {
+      id: true,
+    },
+  });
+};
 module.exports = {
   createRoom,
   createChat,
   getRooms,
   getChats,
   getProductByRoomId,
+  duplicationRoomCheck,
 };
