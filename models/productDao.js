@@ -414,6 +414,11 @@ const getSearchProduct = async (keyword) => {
           id: true,
         },
       },
+      chatRoom: {
+        select: {
+          id: true,
+        },
+      },
     },
   });
 };
