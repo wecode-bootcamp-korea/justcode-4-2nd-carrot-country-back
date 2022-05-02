@@ -1,7 +1,12 @@
+<img src = "https://user-images.githubusercontent.com/98023289/166221879-d8a4c48a-09e8-485a-8368-6faebf5eb0ef.png" width="500" height="160" />
+
+
 ## 🥕 당근나라 프로젝트 소개
 
 > 온 국민이 알고 있는 중고 거래 사이트이며, 동네 정보까지 나눠 이웃과 가깝고 따뜻한 온기를 나눌 수 있는 당근마켓 플랫폼을 
 > 모바일 앱에서 제공하는 주요한 서비스중 일부를 기존 당근 웹사이트에도 녹여내고자 기획한 클론 프로젝트입니다.
+
+> [프론트 레포지토리](https://github.com/wecode-bootcamp-korea/justcode-4-2nd-carrot-country-front/)
 
 ### ✔️ 프로젝트 선정 이유
 
@@ -16,6 +21,9 @@
 > 인원별 구현항목 
 ![image](https://user-images.githubusercontent.com/98023289/166177597-97ed0d70-8187-4386-87aa-d95036cf1bc5.png)
 
+> 🚀 인원별 기술블로그
+[서채원](https://chaeoff.medium.com/)  |  [한서연](https://velog.io/@hahan)   | [임근홍](https://velog.io/@xcc629)  |  [손성호](https://devshon.github.io/) |  [김다미](https://velog.io/@damdaridam)
+
 ### ✔️ DB 모델링
 > 판매자와 구매자가 동일한 유저의 형태로 가입되어 활동하는 구조로, 주요 서비스인 매물생성, 채팅, 구매여부가 모두 user와의 관계성에서 구성되는 구조입니다.
 > 당근마켓의 회원별 온도 데이터로직과 당근페이를 활용한 결제서비스 구현에도 깊은 관심이 있습니다. 
@@ -27,12 +35,21 @@
 <img width="1080" alt="image" src="https://user-images.githubusercontent.com/98023289/166196353-63990d4c-12c6-4fb6-9bc8-a308a6772d2d.png">
 
 
-### ✔️ 기술스택
+### ✔️ API Document
+
+
+# 적용 기술 및 구현 기능
+
+### 적용 기술
+
+> 백엔드
 - 사용언어 : Javascript
 - 런타임환경 : Node.js
 - 웹, 앱 프레임워크 : Express
-- 활용 라이브러리 : JWT, Bcrpyt, multer
+- 활용 라이브러리 : JWT, Bcrpyt, multer, socket.io
 - ORM 프레임워크 : Prisma
 - 데이터베이스 : MySQL
-- 협업툴 : Git, Github
-- 커뮤니케이션툴 : Notion, Slack
+>
+> 프론트엔드 : React, styled-comonpents, Context API, socket.io-client, jest, React-Quill
+>
+> 공통 : RESTful API, MVC Pattern, Github, Slack, Notion
