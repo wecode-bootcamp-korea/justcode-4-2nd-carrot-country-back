@@ -233,12 +233,12 @@ const getBestProductsBycity = async (cityId) => {
 
 const getBestProductsBycityNDistrict = async (cityId, districtId) => {
   return await prisma.product.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
     where: {
       cityId: cityId,
       districtId: districtId,
-    },
-    orderBy: {
-      updatedAt: "desc",
     },
     select: {
       id: true,
