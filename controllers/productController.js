@@ -134,25 +134,22 @@ const getBestProducts = async (req, res) => {
     }
     //city 정보만 선택
     if (cityId && districtId === undefined) {
-      const getBestProductsByLocation = await productService.getBestProductsBycity(
+      const bestProducts = await productService.getBestProductsBycity(
         Number(cityId)
       );
-      return res.status(200).json({ message: "SUCCESS", getBestProductsByLocation });
+      return res.status(200).json({ message: "SUCCESS", bestProducts });
     }
     //city & district 정보 둘다 선택
     if (cityId && districtId) {
-      const getBestProductsByLocation =
-        await productService.getBestProductsBycityNDistrict(
-          Number(cityId),
-          Number(districtId)
-        );
-      return res
-        .status(200)
-        .json({ message: "SUCCESS", getBestProductsByLocation });
+      const bestProducts = await productService.getBestProductsBycityNDistrict(
+        Number(cityId),
+        Number(districtId)
+      );
+      return res.status(200).json({ message: "SUCCESS", bestProducts });
     }
     if (!cityId && !districtId) {
-      const bestProduct = await productService.getBestProducts();
-      return res.status(201).json({ bestProduct: bestProduct });
+      const bestProducts = await productService.getBestProducts();
+      return res.status(201).json({ message: "SUCCESS", bestProducts });
     }
   } catch (err) {
     return res.status(err.statusCode || 500).json({ message: err.message });
