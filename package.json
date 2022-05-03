@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./server.js",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "distribute": "npm i && prisma generate && pm2 start server.js --name justcode-4-2nd-carrot-country-back -i max"
   },
   "keywords": [],
   "author": "",
@@ -19,13 +20,17 @@
     "eslint-plugin-prettier": "^4.0.0",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
-    "prettier": "^2.6.2"
+    "multer": "^1.4.4",
+    "prettier": "^2.6.2",
+    "prettier-plugin-prisma": "^3.12.0",
+    "socket.io": "4.4.1"
   },
   "devDependencies": {
     "@prisma/client": "^3.12.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.0",
     "nodemon": "^2.0.15",
+    "pm2": "^5.2.0",
     "prisma": "^3.12.0"
   }
 }
