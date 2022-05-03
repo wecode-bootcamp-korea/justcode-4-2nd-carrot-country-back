@@ -25,7 +25,6 @@ const createProduct = async (req, res) => {
       productId: productId,
     });
   } catch (err) {
-    console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
@@ -49,7 +48,6 @@ const createProductImages = async (req, res, next) => {
       productId: productId,
     });
   } catch (err) {
-    console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
@@ -68,7 +66,6 @@ const updateProduct = async (req, res) => {
     );
     res.status(200).json({ message: "SUCCESS UPDATE" });
   } catch (err) {
-    console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
@@ -90,7 +87,6 @@ const updateProductImages = async (req, res, next) => {
       imageURLs: filename,
     });
   } catch (err) {
-    console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
@@ -159,7 +155,6 @@ const getBestProducts = async (req, res) => {
       return res.status(201).json({ bestProduct: bestProduct });
     }
   } catch (err) {
-    console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
@@ -185,7 +180,6 @@ const productInterested = async (req, res) => {
     await productService.productInterested(userId, Number(productId));
     return res.status(200).json({ message: "LIKED SUCCESS" });
   } catch (err) {
-    console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
@@ -224,7 +218,6 @@ const getSearchProduct = async (req, res, next) => {
     }
     return res.status(200).json({ message: "SUCCESS", searchProducts });
   } catch (err) {
-    console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
