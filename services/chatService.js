@@ -1,6 +1,10 @@
 const chatDao = require("../models/chatDao");
 
 const createRoom = async (props) => {
+  const checkRoom = await chatDao.duplicationRoomCheck(props);
+  if (checkRoom.length > 0) {
+    return checkRoom[0];
+  }
   return await chatDao.createRoom(props);
 };
 
