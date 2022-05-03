@@ -134,21 +134,21 @@ const getBestProducts = async (req, res) => {
     }
     //city 정보만 선택
     if (cityId && districtId === undefined) {
-      const bestProductsByCity = await productService.getBestProductsBycity(
+      const getBestProductsByLocation = await productService.getBestProductsBycity(
         Number(cityId)
       );
-      return res.status(200).json({ message: "SUCCESS", bestProductsByCity });
+      return res.status(200).json({ message: "SUCCESS", getBestProductsByLocation });
     }
     //city & district 정보 둘다 선택
     if (cityId && districtId) {
-      const getBestProductsBycityNDistrict =
+      const getBestProductsByLocation =
         await productService.getBestProductsBycityNDistrict(
           Number(cityId),
           Number(districtId)
         );
       return res
         .status(200)
-        .json({ message: "SUCCESS", getBestProductsBycityNDistrict });
+        .json({ message: "SUCCESS", getBestProductsByLocation });
     }
     if (!cityId && !districtId) {
       const bestProduct = await productService.getBestProducts();
