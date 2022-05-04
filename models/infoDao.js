@@ -87,6 +87,12 @@ const getInfo = async (infoId) => {
           userId: true,
         },
       },
+      districtInfoImage: {
+        select: {
+          id: true,
+          imageUrl: true,
+        },
+      },
     },
   });
 };
