@@ -129,17 +129,6 @@ const getProductList = async (req, res) => {
 const getBestProducts = async (req, res) => {
   try {
     const { cityId, districtId } = req.query;
-    // cityId 가 제대로 들어오지 않을때
-    if (
-      cityId === "undefined" ||
-      cityId === undefined ||
-      districtId === "undefined" ||
-      districtId === undefined
-    ) {
-      const err = new Error("KEY ERROR");
-      err.statusCode = 400;
-      throw err;
-    }
     // district 만 넘어오는 경우는 err
     if (!cityId && districtId) {
       const err = new Error("KEY ERROR");
