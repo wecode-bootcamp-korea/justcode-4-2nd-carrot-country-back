@@ -1,5 +1,4 @@
 const areaService = require("../services/areaService");
-
 const errorGenerator = require("../utils/errorGenerator");
 
 const getArea = async (req, res, next) => {
@@ -21,10 +20,17 @@ const getCities = async (req, res, next) => {
 const getDistricts = async (req, res, next) => {
   try {
     const { cityId } = req.params;
-    if (!cityId) {
-      throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
+    if (!cityId || cityId === "undefined" || cityId === undefined) {
+      const err = new Error("KEY ERROR : CITY-ID");
+      err.statusCode = 400;
+      throw err;
     }
     const districts = await areaService.getDistricts(Number(cityId));
+    if (districts.length === 0) {
+      const err = new Error("INVALID REQUEST");
+      err.statusCode = 400;
+      throw err;
+    }
     return res.status(200).json({ message: "SUCCESS", districts });
   } catch (err) {
     res.status(err.statusCode || 500).json({ message: err.message });

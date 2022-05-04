@@ -102,6 +102,11 @@ const createInfo = async (req, res, next) => {
     const cityId = req.cityId;
     const districtId = req.districtId;
     const { title, content } = req.body;
+    if(!title || !content){
+      const err = new Error("KEY ERROR");
+      err.statusCode = 400;
+      throw err;
+    }
     await infoService.createInfo(userId, cityId, districtId, title, content);
     return res.status(201).json({ message: "SUCCESS CREATE DISTRICT-INFO" });
   } catch (err) {
