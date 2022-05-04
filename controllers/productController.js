@@ -1,4 +1,5 @@
 const productService = require("../services/productService");
+const errorGenerator = require("../utils/errorGenerator");
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
@@ -128,12 +129,25 @@ const getProductList = async (req, res) => {
 const getBestProducts = async (req, res) => {
   try {
     const { cityId, districtId } = req.query;
+    // cityId 가 제대로 들어오지 않을때
+    if (
+      cityId === "undefined" ||
+      cityId === undefined ||
+      districtId === "undefined" ||
+      districtId === undefined
+    ) {
+      const err = new Error("KEY ERROR");
+      err.statusCode = 400;
+      throw err;
+    }
     // district 만 넘어오는 경우는 err
-    if (cityId === undefined && districtId) {
-      throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
+    if (!cityId && districtId) {
+      const err = new Error("KEY ERROR");
+      err.statusCode = 400;
+      throw err;
     }
     //city 정보만 선택
-    if (cityId && districtId === undefined) {
+    if (cityId && !districtId) {
       const bestProducts = await productService.getBestProductsBycity(
         Number(cityId)
       );
@@ -164,7 +178,6 @@ const getProductDetail = async (req, res) => {
     await productService.updateViewCount(product.id, product.viewCount);
     return res.status(200).json({ product });
   } catch (err) {
-    console.log(err);
     return res.status(400).json({ message: err.message });
   }
 };
