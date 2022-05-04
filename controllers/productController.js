@@ -130,11 +130,13 @@ const getBestProducts = async (req, res) => {
   try {
     const { cityId, districtId } = req.query;
     // district 만 넘어오는 경우는 err
-    if (cityId === undefined && districtId) {
-      throw await errorGenerator({ statusCode: 400, message: "KEY_ERROR" });
+    if (!cityId && districtId) {
+      const err = new Error("KEY ERROR");
+      err.statusCode = 400;
+      throw err;
     }
     //city 정보만 선택
-    if (cityId && districtId === undefined) {
+    if (cityId && !districtId) {
       const bestProducts = await productService.getBestProductsBycity(
         Number(cityId)
       );
