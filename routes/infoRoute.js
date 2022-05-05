@@ -18,16 +18,18 @@ const upload = multer({
   storage: storage,
 });
 
-// GET
+// 동네소식 조회 
 router.get("/:infoId", infoController.getInfo);
 router.get("/search/info", infoController.getSearchInfos);
 
+//동네소식 좋아요
 router.post(
   "/:infoId/liked",
   authorization.getUserIdByVerifyToken,
   infoController.postInfoLike
 );
 
+//동네소식 좋아요 취소
 router.delete(
   "/:infoId/unliked",
   authorization.getUserIdByVerifyToken,
@@ -40,11 +42,13 @@ router.use(
 );
 router.get("/", infoController.getInfos);
 
-// 동네정보 등록 API
+// 동네소식 등록 API
 router.post("",infoController.createInfo);
 router.post("/images", upload.array("images"),function(req, res, next) {
   next();
 }, infoController.createInfoImages)
+
+//동네소식 삭제 API
 router.delete("/:infoId",infoController.deleteInfo);
 
 //댓글정보 가져오기
