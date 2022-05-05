@@ -79,9 +79,53 @@ const updateProduct = async (
 };
 
 const deleteProduct = async (productId) => {
+  //챗 내용 확인
+  const roomId = await prisma.$queryRaw`
+  SELECT id FROM chat_rooms WHERE productId = ${productId} 
+  `;
+
+  if (roomId.length === 1) {
+    await prisma.$queryRaw`
+    DELETE FROM chats WHERE roomId = ${roomId[0].id}
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM chat_rooms WHERE productId = ${productId};
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM products_images WHERE productId = ${productId};
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM products WHERE id = ${productId};
+    `;
+  }
+
+  if (roomId.length > 1) {
+    const arr = [];
+    for (i in roomId) {
+      arr.push(roomId[i].id);
+    }
+
+    await arr.forEach(
+      async (arr) =>
+        await prisma.$queryRaw`
+      DELETE FROM chats WHERE roomId = ${arr}
+      `
+    );
+    await prisma.$queryRaw`
+      DELETE FROM chat_rooms WHERE productId = ${productId};
+      `;
+    await prisma.$queryRaw`
+      DELETE FROM products_images WHERE productId = ${productId};
+      `;
+    await prisma.$queryRaw`
+      DELETE FROM products WHERE id = ${productId};
+      `;
+  }
+  //매물 이미지 지우기
   await prisma.$queryRaw`
 DELETE FROM products_images WHERE productId = ${productId};
 `;
+  //매물정보 지우기
   await prisma.$queryRaw`
 DELETE FROM products WHERE id = ${productId};
 `;
