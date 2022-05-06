@@ -26,19 +26,24 @@ router.get("/search/product", productController.getSearchProduct);
 
 //지역미들웨어는 없어도 작동가능
 router.use(authorization.getUserIdByVerifyToken);
+
+//유저의 판매상품 조회
+router.get("/mypage/selling", productController.getProductsByUserId);
+
+//관심있어요 등록
 router.post(
   "/:productId/interested",
-  // authorization.getUserIdByVerifyToken,
   keyError.validProductInterested,
   productController.productInterested
 );
 
+//관심있어요 취소
 router.delete(
   "/:productId/unInterested",
-  // authorization.getUserIdByVerifyToken,
   productController.productUnInterested
 );
 
+// 매물 수정
 router.patch("/:productId", productController.updateProduct);
 router.patch(
   "/:productId/updateImages",
@@ -55,6 +60,7 @@ router.use(
   authorization.getUserDistrictInfo
 );
 
+//매물 등록
 router.post("", keyError.validCreateProduct, productController.createProduct);
 router.post(
   "/images",
@@ -65,27 +71,10 @@ router.post(
   productController.createProductImages
 );
 
+// 매물조회
 router.get("", productController.getProductList);
+
+//매물 삭제 (body로 받는 방식 params 로 변경 필요)
 router.delete("", keyError.validDeleteProduct, productController.deleteProduct);
 
-router.patch("/:productId", productController.updateProduct);
-router.patch(
-  "/:productId/updateImages",
-  upload.array("updateImages"),
-  function (req, res, next) {
-    next();
-  },
-  productController.updateProductImages
-);
-
-router.post(
-  "/:productId/interested",
-  keyError.validProductInterested,
-  productController.productInterested
-);
-
-router.delete(
-  "/:productId/unInterested",
-  productController.productUnInterested
-);
 module.exports = router;
