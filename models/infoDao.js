@@ -186,10 +186,13 @@ const deleteInfo = async (infoId) => {
 
   if (commentId.length === 1) {
     await prisma.$queryRaw`
-    DELETE FROM comments_liked WHERE commentId = ${commentId} 
+    DELETE FROM comments_liked WHERE commnetId = ${commentId[0].id} 
     `;
     await prisma.$queryRaw`
     DELETE FROM comments WHERE infoId = ${infoId}
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM districts_infos_liked WHERE infoId = ${infoId};
     `;
     await prisma.$queryRaw`
     DELETE FROM districts_infos_images WHERE infoId = ${infoId};
