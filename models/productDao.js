@@ -78,8 +78,10 @@ const updateProduct = async (
   `;
 };
 
+// 매물삭제
 const deleteProduct = async (productId) => {
-  //챗 내용 확인
+  //챗 내용여부 확인
+  console.log("productId",productId)
   const roomId = await prisma.$queryRaw`
   SELECT id FROM chat_rooms WHERE productId = ${productId} 
   `;
@@ -90,6 +92,9 @@ const deleteProduct = async (productId) => {
     `;
     await prisma.$queryRaw`
     DELETE FROM chat_rooms WHERE productId = ${productId};
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM products_interested WHERE productId = ${productId}
     `;
     await prisma.$queryRaw`
     DELETE FROM products_images WHERE productId = ${productId};
@@ -115,17 +120,24 @@ const deleteProduct = async (productId) => {
       DELETE FROM chat_rooms WHERE productId = ${productId};
       `;
     await prisma.$queryRaw`
+      DELETE FROM products_interested WHERE productId = ${productId}
+      `;
+    await prisma.$queryRaw`
       DELETE FROM products_images WHERE productId = ${productId};
       `;
     await prisma.$queryRaw`
       DELETE FROM products WHERE id = ${productId};
       `;
   }
-  //매물 이미지 지우기
+  //매물 관심있어요 삭제
+  await prisma.$queryRaw`
+  DELETE FROM products_interested WHERE productId = ${productId}
+  `;
+  //매물 이미지 삭제
   await prisma.$queryRaw`
 DELETE FROM products_images WHERE productId = ${productId};
 `;
-  //매물정보 지우기
+  //매물정보 삭제
   await prisma.$queryRaw`
 DELETE FROM products WHERE id = ${productId};
 `;
@@ -184,6 +196,56 @@ const getProductList = async (districtId, cityId) => {
   });
 };
 
+// 유저별 판매상품 조회
+const getProductsByUserId = async(userId) => {
+  return await prisma.product.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
+    where: {
+      userId: userId 
+    },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      createdAt: true,
+      updatedAt: true,
+      city: {
+        select: {
+          id: true,
+          cityName: true,
+        },
+      },
+      district: {
+        select: {
+          id: true,
+          districtName: true,
+        },
+      },
+      chatRoom: {
+        select: {
+          id: true,
+        },
+      },
+      productIntrested: {
+        select: {
+          id: true,
+        },
+      },
+      productImage: {
+        take: 1,
+        select: {
+          id: true,
+          imageUrl: true,
+        },
+      },
+    },
+  })
+}
+
+
+// 인기중고매물 조회
 const getBestProducts = async () => {
   return await prisma.product.findMany({
     orderBy: {
@@ -484,4 +546,5 @@ module.exports = {
   getBestProductsBycity,
   getBestProductsBycityNDistrict,
   getSearchProduct,
+  getProductsByUserId
 };

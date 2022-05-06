@@ -125,6 +125,18 @@ const getProductList = async (req, res) => {
   }
 };
 
+// 판매이력 매물가져오기 (user별)
+const getProductsByUserId = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const sellingItem = await productService.getProductsByUserId(userId);
+    return res.status(201).json({ sellingItem: sellingItem });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
 // 인기 중고매물 가져오기 (인증/인가 불필요 / viewCount 내림차순)
 const getBestProducts = async (req, res) => {
   try {
@@ -233,4 +245,5 @@ module.exports = {
   productUnInterested,
   updateProductImages,
   getSearchProduct,
+  getProductsByUserId,
 };
