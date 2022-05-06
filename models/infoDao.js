@@ -133,11 +133,11 @@ const getSearchInfos = async (keyword) => {
           id: true,
         },
       },
-      comment : {
-        select : {
-          id : true,
+      comment: {
+        select: {
+          id: true,
         },
-      }
+      },
     },
   });
 };
@@ -180,6 +180,53 @@ const getinfoComments = async (infoId) => {
 };
 
 const deleteInfo = async (infoId) => {
+  const commentId = await prisma.$queryRaw`
+  SELECT id FROM comments WHERE infoId = ${infoId} 
+  `;
+
+  if (commentId.length === 1) {
+    await prisma.$queryRaw`
+    DELETE FROM comments_liked WHERE commentId = ${commentId} 
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM comments WHERE infoId = ${infoId}
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM districts_infos_images WHERE infoId = ${infoId};
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM districts_infos WHERE id = ${infoId}
+    `;
+  }
+  // 댓글이 여러개  + 좋아요도 여러개일 때
+  if (commentId.length > 1) {
+    // 다중 댓글 지우기
+    const arr = [];
+    for (i in commentId) {
+      arr.push(commentId[i].id);
+    }
+
+    await arr.forEach(
+      async (arr) =>
+        await prisma.$queryRaw`
+    DELETE FROM comments_liked WHERE commnetId = ${arr}
+    `
+    );
+
+    await arr.forEach(
+      async (arr) =>
+        await prisma.$queryRaw`
+      DELETE FROM comments WHERE id = ${arr}
+      `
+    );
+    await prisma.$queryRaw`
+    DELETE FROM districts_infos_images WHERE infoId = ${infoId};
+    `;
+    await prisma.$queryRaw`
+    DELETE FROM districts_infos WHERE id = ${infoId}
+    `;
+  }
+
   await prisma.$queryRaw`
     DELETE FROM districts_infos_images WHERE infoId = ${infoId};
     `;
@@ -270,12 +317,11 @@ const createInfoImages = async (filename, infoId) => {
   );
 };
 
-const deleteComment = async(commentId) => {
+const deleteComment = async (commentId) => {
   await prisma.$queryRaw`
     DELETE FROM comments WHERE id = ${commentId}
     `;
-}
- 
+};
 
 module.exports = {
   getInfos,
@@ -290,5 +336,5 @@ module.exports = {
   createInfoImages,
   getinfoComments,
   deleteInfo,
-  deleteComment
+  deleteComment,
 };

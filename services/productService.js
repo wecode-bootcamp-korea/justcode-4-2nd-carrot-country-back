@@ -59,6 +59,10 @@ const getProductList = async (districtId, cityId) => {
   return await productDao.getProductList(districtId, cityId);
 };
 
+const getProductsByUserId = async(userId) => {
+  return await productDao.getProductsByUserId(userId);
+}
+
 const getBestProducts = async () => {
   return await productDao.getBestProducts();
 };
@@ -119,5 +123,6 @@ module.exports = {
   updateViewCount,
   getBestProductsBycity,
   getBestProductsBycityNDistrict,
-  getSearchProduct
+  getSearchProduct,
+  getProductsByUserId
 };
