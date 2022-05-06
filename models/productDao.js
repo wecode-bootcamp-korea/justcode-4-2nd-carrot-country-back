@@ -296,7 +296,7 @@ const getBestProductsBycity = async (cityId) => {
       cityId: cityId,
     },
     orderBy: {
-      updatedAt: "desc",
+      viewCount: "desc",
     },
     select: {
       id: true,
@@ -340,7 +340,7 @@ const getBestProductsBycity = async (cityId) => {
 const getBestProductsBycityNDistrict = async (cityId, districtId) => {
   return await prisma.product.findMany({
     orderBy: {
-      updatedAt: "desc",
+      viewCount: "desc",
     },
     where: {
       cityId: cityId,
